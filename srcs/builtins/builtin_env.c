@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoumad <aoumad@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/26 09:50:51 by aoumad            #+#    #+#             */
-/*   Updated: 2022/05/26 17:51:02 by aoumad           ###   ########.fr       */
+/*   Created: 2022/06/01 13:17:15 by aoumad            #+#    #+#             */
+/*   Updated: 2022/06/01 13:23:24 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int builtin_pwd(int argc __attribute((unused)), 
+int builtin_env(int argc __attribute((unused)),
     char **argv __attribute((unused)))
 {
-    char buf[PATH_MAX];
+    int i;
 
-    if (getcwd(buf, sizeof(buf))); // getcwd returns null if path ain't found
+    // if (g_env == NULL)
+    //     RETURN AN ERROR MESSAGE
+            // return (EXIT_FAILURE);
+    i = 0;
+    while (g_env[i++])
     {
-        ft_putendl_fd(buf, STDOUT_FILENO);
-        return (0);
+        ft_putendl_fd(g_env[i], 1);
     }
-    else
-    {
-        //it should print an error message for me
-        return (EXIT_FAILURE);        
-    }
+    return (0);
 }

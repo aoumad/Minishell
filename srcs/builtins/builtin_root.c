@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_root.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoumad <aoumad@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 15:15:39 by aoumad            #+#    #+#             */
-/*   Updated: 2022/05/26 18:31:21 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/01 10:36:30 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,14 @@ static void ft_quote_remove(t_cmd *cmd);
   
 };*/
 
-static const struct s_builtins	g_builtins[] = {
+static const struct s_builtins	g_builtins[] = 
+{
 	{"echo", builtin_echo},
-    //{"cd", builtin_cd},
+    {"cd", builtin_cd},
 	{"pwd", builtin_pwd},
-	// {"env", builtin_env},
-	// {"export", builtin_export},
-	// {"unset", builtin_unset},
+	{"env", builtin_env},
+	{"export", builtin_export},
+	{"unset", builtin_unset},
 	{NULL, NULL},
 };
 
@@ -67,3 +68,4 @@ void    builtin_root(char **argv, t_cmd *cmd)
         let's think about it later */
     return (g_builtins[i - 1].func(ft_wordcount(argv, " "), cmd->args));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 }
+

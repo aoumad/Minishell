@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoumad <aoumad@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 10:24:52 by aoumad            #+#    #+#             */
-/*   Updated: 2022/05/25 15:47:28 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/01 15:20:07 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,15 @@
 #include <readline/history.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h> 
 #include <unistd.h>
 #include <limits.h>
 #include <errno.h>
 #include "../libft/libft.h"
+#include "env.h"
+#include "utils.h"
 
+#define MAX_BUF 200
 # define ERROR	-1
 enum tokens
 {
