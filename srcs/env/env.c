@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 10:50:41 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/01 11:33:10 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/02 18:26:46 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int env_init(void)
         {
             // free the address of the g_env
             // return an error message with a systax like bash does
-        }
         i++;
     }
     g_env[i] = NULL;
@@ -48,22 +47,22 @@ char    *get_value(char *name)
     char    *env;
     env = search_env(name);
     if (env != 0)
-        return (ft_strchr(env, '=') + 1);
+        return (ft_strchr(env, '=') + 1); // HOME=/USER/AOUMAD (input) ==> /USER/AOUMAD (output)
     else
         return (NULL);
 }
-
-char    search_env(char *name)
+// khasni nchof blan dyal len_name likaduir operations dyal char pointer
+char    *search_env(char *name)
 {
     int len_name;
     int i;
     
     if (name == NULL || g_env == NULL)
         return (NULL);
-    if (ft_strchr(name, '=') != NULL)
-        len_name = ft_strchr(name, '=') - name;
-    else
-        return (NULL); // not sure about it
+    // if (ft_strchr(name, '=') != NULL)
+    //     len_name = ft_strlen(ft_strchr(name, '=')) - ft_strlen(name);
+    // else
+    len_name = ft_strlen(name);
     i = 0;
     while (g_env[i])
     {
