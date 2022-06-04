@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 10:24:52 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/01 15:20:07 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/04 17:51:50 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@
 enum tokens
 {
     pipe = '|',
-    token_and  = '&',
     redirect_out = '>',
     redirect_in = '<',
     dollar = '$',
@@ -40,25 +39,42 @@ enum tokens
     char_null = 0,
     new_lin = '\n'
 };
+
+/*
+my global variables
+*/
+extern char 			**g_env;
+// pid_t					g_pid;
+// int						g_error;
+int						g_status;
+// int						g_tester;
 struct s_builtins
 {
 	char	*name;
 	int		(*func)(int argc, char **argv);
 };
-typedef struct s_cmd
+typedef struct s_list
 {
-	char			*name;
-	char			**args;
-	char			*file;
-	int				fd;
-	int				token;
-	char			*eof;
-	unsigned int	num_of_args;
-	struct s_token  *next;
-}   t_cmd;
+    int len;
+    int type;
+    char *str;
+    struct s_list	*next;
+}		t_list;
+
+typedef struct s_command
+{
+    char    **cmd;
+    int     num_of_args;
+    char    **infile;
+    int     num_of_infile;
+    char    **outfile;
+    int     num_of_outfile;
+    char    *executable;
+}        t_command;
+
 
 // env variable list (using double struct)
-typedef struct s_env_var {
+/*typedef struct s_env_var {
 	unsigned int		sort_index;
 	unsigned int		index;
 	char				*name;
@@ -86,13 +102,8 @@ typedef struct s_state {
 	int			sig;
 	int			pid;
 }	t_state;
+*/
 
-
-typedef struct node
-{
-    t_cmd data;
-    struct node* next;
-} *t_node;
 
 //====== lexer ======//
 int     search_token(char token);

@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 10:50:41 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/02 18:26:46 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/03 18:32:51 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 int env_init(void)
 {
     extern char **env;
-    int count;
     int i;
     
     i = 0;
-    count = 0;
-    while (env && env[count])
+    while (env && env[i])
+    {
         i++;
+    }
     if (i == 0)
         return (NULL);
     g_env = (char **)malloc((i + 1) * sizeof(char *));
