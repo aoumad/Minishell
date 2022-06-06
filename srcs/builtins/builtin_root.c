@@ -6,29 +6,16 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 15:15:39 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/01 10:36:30 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/06 11:38:44 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../../includes/minishell.h"
 
 static void ft_quote_remove(t_cmd *cmd);
-
-/*static const struct s_builtin   g_builtins[] = {
-  {"cd", cd_builtin},
-  /*{"pwd", pwd_builtin},
-  {"echo", echo_builtin},
-  {"env", env_builtin},
-  {"unset", unset_builtin},
-  {"export", export_builtin},
-  {NULL, NULL},
-  
-};*/
-
-static const struct s_builtins	g_builtins[] = 
-{
+static const struct s_builtins	g_builtins[] = {
 	{"echo", builtin_echo},
-    {"cd", builtin_cd},
+	{"cd", builtin_cd},
 	{"pwd", builtin_pwd},
 	{"env", builtin_env},
 	{"export", builtin_export},
@@ -36,7 +23,7 @@ static const struct s_builtins	g_builtins[] =
 	{NULL, NULL},
 };
 
-int builtin_check(t_cmd *cmd)
+static int builtin_check(t_cmd *cmd)
 {
     int cmd_len;
     int is_builtin;
@@ -63,9 +50,6 @@ void    builtin_root(char **argv, t_cmd *cmd)
     i = builtin_check(cmd);
     if (i == 0)
         return (ERROR);
-    errno = 0;
-    /*if (i == -1)
-        let's think about it later */
     return (g_builtins[i - 1].func(ft_wordcount(argv, " "), cmd->args));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 }
 

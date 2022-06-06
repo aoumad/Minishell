@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 13:17:15 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/01 13:23:24 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/06 10:27:34 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@ int builtin_env(int argc __attribute((unused)),
 {
     int i;
 
-    // if (g_env == NULL)
-    //     RETURN AN ERROR MESSAGE
-            // return (EXIT_FAILURE);
+    if (g_env == NULL)
+    {
+        ft_error("minishell", "env", "environ not set");
+        return (EXIT_FAILURE);
+    }
     i = 0;
     while (g_env[i++])
     {

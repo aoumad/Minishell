@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 10:24:52 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/04 17:51:50 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/06 11:23:19 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 #include "env.h"
 #include "utils.h"
 
-#define MAX_BUF 200
+# define MAX_BUF 200
 # define ERROR	-1
 enum tokens
 {
@@ -114,4 +114,16 @@ void    ft_fill(char *line, int start, int end);
 int main(int argc, char **argv, char **env);
 int	ft_strcmp(char *s1, char *s2);
 
+
+// ===== builtin functions ====== //
+void    builtin_root(char **argv, t_cmd *cmd);
+int builtin_cd(int argc, char **argv);
+int builtin_echo(int argc __attribute((unused)), t_cmd *cmd);
+int builtin_env(int argc __attribute((unused)),
+    char **argv __attribute((unused)));
+int builtin_exit(int argc, char **argv);
+int builtin_export(int argc, char **argv);
+int builtin_pwd(int argc __attribute((unused)), 
+    char **argv __attribute((unused)));
+int builtin_unset(int argc __attribute((unused)), char **argv);
 #endif

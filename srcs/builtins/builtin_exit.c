@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:37:52 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/04 23:55:20 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/06 11:19:46 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static  long long  ft_atoi_exit(const char *str, int i, int *status_error)
     return (res * minus);
 }
 
-void    exit_numeric_error(char *arg)
+static void    exit_numeric_error(char *arg)
 {
     ft_putstr_fd("minishell: exit: ", 2);
     ft_putstr_fd(arg, 2);
@@ -49,7 +49,7 @@ void    exit_numeric_error(char *arg)
     g_status = 2;
 }
 
-void    check_numeric(char *arg)
+static void    check_numeric(char *arg)
 {
     int i;
 

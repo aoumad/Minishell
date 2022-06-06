@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 09:50:51 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/01 15:19:42 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/06 10:29:28 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ int builtin_pwd(int argc __attribute((unused)),
 {
     char buf[MAX_BUF];
 
-    if (getcwd(buf, sizeof(buf))); // getcwd returns null if path ain't found
+    if (getcwd(buf, sizeof(buf))) // getcwd returns null if path ain't found
     {
         ft_putendl_fd(buf, STDOUT_FILENO);
         return (0);
     }
     else
     {
-        //it should print an error message for me
+        ft_error("minishell", "pwd", strerror(ENOMEM));
         return (EXIT_FAILURE);        
     }
 }

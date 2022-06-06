@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:38:49 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/01 11:49:49 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/06 10:39:05 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int builtin_unset(int argc __attribute((unused)), char **argv)
             j++;
         if (argv[i][j] != '\0' || argv[i][0] == '\0')
         {
-            // PRINT AN ERROR MESSAGE AND 
+            ft_error("minishell", "unset", "not a valid identifier"); 
             status = EXIT_FAILURE;
         }
         else
