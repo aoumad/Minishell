@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoumad <aoumad@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 09:30:42 by aoumad            #+#    #+#             */
-/*   Updated: 2022/05/23 11:01:22 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/06 21:22:15 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
     
 #include "../includes/minishell.h"
 
-int	ft_strlen(char *s)
+/*int	ft_strlen(char *s)
 {
 	int	i;
 
@@ -49,26 +49,11 @@ void handler(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-}
+}*/
 
 int main(int argc, char **argv, char **env)
 {
-	while(1)
-	{
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, handler);
-		char *buffer = readline("Minishell> ");
-		if (!buffer)
-			return (write(2, "exit\n", 5), 1);
-		if (!ft_strcmp(buffer, "exit"))
-		{
-			free (buffer);
-			printf ("exit");
-				exit(1) ;
-		}
-		if (ft_strlen(buffer))
-			add_history (buffer);
-		free(buffer);
-    }
+
+	builtin_root(argv, arc);
     return 0;
 }

@@ -12,7 +12,6 @@
 
 #include"../../includes/minishell.h"
 
-static void ft_quote_remove(t_cmd *cmd);
 static const struct s_builtins	g_builtins[] = {
 	{"echo", builtin_echo},
 	{"cd", builtin_cd},

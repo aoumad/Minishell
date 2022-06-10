@@ -26,7 +26,7 @@ int env_init(void)
     if (i == 0)
         return (NULL);
     g_env = (char **)malloc((i + 1) * sizeof(char *));
-    // if (!g_env)
+    if (!g_env)
     //     it should print an error message with a sytnax like bash does
     i = 0;
     while (env[i])

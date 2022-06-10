@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 10:24:52 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/06 11:23:19 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/10 11:08:22 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <unistd.h>
 #include <limits.h>
 #include <errno.h>
+#include <fcntl.h>
 #include "../libft/libft.h"
 #include "env.h"
 #include "utils.h"
@@ -53,22 +54,38 @@ struct s_builtins
 	char	*name;
 	int		(*func)(int argc, char **argv);
 };
+
+typedef enum s_filetype
+{
+    NONE,
+    IN,
+    OUT,
+    APPEND,
+    HEREDOC,
+}	t_filetype;
 typedef struct s_list
 {
     int len;
     int type;
     char *str;
-    struct s_list	*next;
-}		t_list;
+    struct s_list* next;
+} t_list;
+
+typedef struct s_redirection
+{
+    char *file;
+    int type;
+    struct s_redirection* next;
+} t_redirection;
 
 typedef struct s_command
 {
     char    **cmd;
     int     num_of_args;
-    char    **infile;
-    int     num_of_infile;
-    char    **outfile;
-    int     num_of_outfile;
+    int     pipe_fd[2];
+    int	    fd_stdout;
+	int	    fd_stdin;
+    struct s_redirection *redirect;
     char    *executable;
 }        t_command;
 
