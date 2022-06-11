@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 10:50:41 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/03 18:32:51 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/10 17:04:59 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int env_init(void)
         {
             // free the address of the g_env
             // return an error message with a systax like bash does
+        }
         i++;
     }
     g_env[i] = NULL;

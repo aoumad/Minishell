@@ -6,21 +6,23 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 10:24:52 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/10 11:08:22 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/10 19:02:39 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # ifndef MINISHELL_H
 # define MINISHELL_H
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h> 
-#include <unistd.h>
-#include <limits.h>
-#include <errno.h>
-#include <fcntl.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include <errno.h>
+# include <string.h>
 #include "../libft/libft.h"
 #include "env.h"
 #include "utils.h"
@@ -75,6 +77,7 @@ typedef struct s_redirection
 {
     char *file;
     int type;
+    int	    fd;
     struct s_redirection* next;
 } t_redirection;
 
@@ -82,9 +85,8 @@ typedef struct s_command
 {
     char    **cmd;
     int     num_of_args;
+    int     num_cmd;
     int     pipe_fd[2];
-    int	    fd_stdout;
-	int	    fd_stdin;
     struct s_redirection *redirect;
     char    *executable;
 }        t_command;
@@ -140,6 +142,7 @@ int builtin_env(int argc __attribute((unused)),
     char **argv __attribute((unused)));
 int builtin_exit(int argc, char **argv);
 int builtin_export(int argc, char **argv);
+int builtin_check(t_command *cmd, t_list *list);
 int builtin_pwd(int argc __attribute((unused)), 
     char **argv __attribute((unused)));
 int builtin_unset(int argc __attribute((unused)), char **argv);
