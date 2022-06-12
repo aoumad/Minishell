@@ -6,13 +6,13 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:34:15 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/08 19:13:34 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/12 16:22:18 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char    **get_path(char **envp,  t_command *data)
+char    *get_path(char **envp,  t_command *data)
 {
     char    **paths;
     char    *path;

@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 10:24:52 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/10 19:02:39 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/12 18:53:56 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,14 @@
 # include <string.h>
 #include "../libft/libft.h"
 #include "env.h"
+#include "exec.h"
 #include "utils.h"
 
 # define MAX_BUF 200
 # define ERROR	-1
 enum tokens
 {
-    pipe = '|',
+    pip = '|',
     redirect_out = '>',
     redirect_in = '<',
     dollar = '$',
@@ -42,6 +43,9 @@ enum tokens
     char_null = 0,
     new_lin = '\n'
 };
+
+#define TRUE 1
+#define FALSE 0
 
 /*
 my global variables
@@ -75,10 +79,12 @@ typedef struct s_list
 
 typedef struct s_redirection
 {
-    char *file;
-    int type;
-    int	    fd;
-    struct s_redirection* next;
+    char                    *file;
+    int                     type;
+    int	                    fd;
+    int					    fd_stdout;
+	int					    fd_stdin;
+    struct s_redirection*   next;
 } t_redirection;
 
 typedef struct s_command
@@ -135,14 +141,14 @@ int	ft_strcmp(char *s1, char *s2);
 
 
 // ===== builtin functions ====== //
-void    builtin_root(char **argv, t_cmd *cmd);
+void    builtin_root(char **argv, t_command *cmd);
 int builtin_cd(int argc, char **argv);
-int builtin_echo(int argc __attribute((unused)), t_cmd *cmd);
+int builtin_echo(int argc __attribute((unused)), t_command *cmd);
 int builtin_env(int argc __attribute((unused)),
     char **argv __attribute((unused)));
 int builtin_exit(int argc, char **argv);
 int builtin_export(int argc, char **argv);
-int builtin_check(t_command *cmd, t_list *list);
+int builtin_check(char  *str);
 int builtin_pwd(int argc __attribute((unused)), 
     char **argv __attribute((unused)));
 int builtin_unset(int argc __attribute((unused)), char **argv);
