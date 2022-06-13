@@ -6,12 +6,11 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 10:50:41 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/10 17:04:59 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/13 22:30:51 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include "../../libft/libft.h"
 
 int env_init(void)
 {

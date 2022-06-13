@@ -6,11 +6,11 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:01:28 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/06 12:13:11 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/13 22:30:45 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 int unset_the_var(char  *name)
 {

@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 13:25:11 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/06 11:18:33 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/13 22:37:00 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ static char    *get_the_print_working_dir(int argc, char **argv)
         if (dir == NULL)
             ft_error("minishell", "cd", "HOME not set");
     }
-    else if (argv[1] && ft_strncmp(argv[1], "-", 2) == 0); // "cd -"
+    else if (argv[1] && ft_strncmp(argv[1], "-", 2) == 0) // "cd -"
     {
         dir = get_value("OLDPWD");
         if (dir == NULL)
-            ft_error("minishell", "cd", "OLDPWD not set")
+            ft_error("minishell", "cd", "OLDPWD not set");
     }
     else
         dir = get_value(argv[1]);
@@ -65,7 +65,7 @@ static int update_pwd(void)
     }
     else // if no then i need to remove OLDPWD content and replace it 
         unset_the_var("OLDPWD"); // with the previous one before using cd
-    if (getcwd(path, MAX_BUF) == ERROR)
+    if (getcwd(path, MAX_BUF) == -1)
     {
         ft_error("minishell", "cd", strerror(ENOMEM));
         return (ERROR);

@@ -6,11 +6,22 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 15:15:39 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/12 16:45:20 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/13 22:31:57 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../../includes/minishell.h"
+#include <stdio.h>
+
+static const struct s_builtins	g_builtins[] = {
+	{"echo", builtin_echo},
+	{"cd", builtin_cd},
+	{"pwd", builtin_pwd},
+	{"env", builtin_env},
+	{"export", builtin_export},
+	{"unset", builtin_unset},
+	{NULL, NULL},
+};
 
 int builtin_check(char  *str)
 {

@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 17:12:36 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/01 13:21:42 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/13 11:59:50 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char *ft_remove_quote(t_cmd *cmd);
 
-int builtin_echo(int argc __attribute((unused)), t_cmd *cmd)
+int builtin_echo(int argc __attribute((unused)), t_command *cmd)
 {
     int i;
     int num_words;

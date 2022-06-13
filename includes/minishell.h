@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 10:24:52 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/12 18:53:56 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/13 22:35:42 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,8 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <string.h>
+#include <stdbool.h>
 #include "../libft/libft.h"
-#include "env.h"
-#include "exec.h"
-#include "utils.h"
 
 # define MAX_BUF 200
 # define ERROR	-1
@@ -54,6 +52,7 @@ extern char 			**g_env;
 // pid_t					g_pid;
 // int						g_error;
 int						g_status;
+int                     g_exit_value;
 // int						g_tester;
 struct s_builtins
 {
@@ -152,4 +151,42 @@ int builtin_check(char  *str);
 int builtin_pwd(int argc __attribute((unused)), 
     char **argv __attribute((unused)));
 int builtin_unset(int argc __attribute((unused)), char **argv);
+
+
+//======================================
+// ==== ENV ===== //
+char    search_env(char *name);
+char    *get_value(char *name);
+char    search_env(char *name);
+bool    check_var_on_env(char c);
+
+// ==== ENV MODIFY ====//
+int unset_the_var(char  *name);
+int put_the_var(char *str);
+int set_the_env(char *name, char *value);
+extern char **g_env;
+#include <stdbool.h>
+
+//=======================================
+//======= Execute utils ===== //
+char    *get_path(char **envp,  t_command *data);
+void    ft_command_not_found(char **paths, char *cmd, t_command *data);
+int open_file(t_redirection *redirect, char **env);
+
+//====== execute function =====//
+char    **ft_exec(t_command *data, char **envp, int index, char **argv);
+char    **execute_process_builtin(t_command *data, int index, char  **envp, char **argv);
+void    close_fd(t_command *data, int index);
+void    **execute_root(t_command *data, char **envp, t_list *list, char **argv);
+
+//========================================
+// ===== builtin_utils ==== //
+int replace_str_env(char ***env, char *old_str, char *new_str);
+int env_count(char **env);
+int add_to_env(char ***env, char *str);
+int remove_from_env(char ***env, char *str);
+
+//====== Error === //
+int ft_error(char *shell_name, char *s1, char *message);
+
 #endif
