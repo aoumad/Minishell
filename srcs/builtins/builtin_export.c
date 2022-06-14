@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 11:54:41 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/06 11:22:30 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/14 16:06:43 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void exported_vars(void)
     if (dup_env == NULL)
     {
         ft_error("minishell", NULL, strerror(ENOMEM)); // "Cannot allocate memory" message
-        return (EXIT_FAILURE);
+        return ;
     }   
     ft_memcpy(dup_env, g_env, (env_count(g_env) + 1) * sizeof(char *));
     sort_env(dup_env);
@@ -96,7 +96,7 @@ static bool check_arg(char *argv)
     i = 0;
     if (argv[0] == '\0' || argv[0] == '=')
         return (false);
-    while (argv[i] != '\0'  && argv[i] != '=' && check_var_is_char(argv[i]))
+    while (argv[i] != '\0'  && argv[i] != '=' &&    (argv[i]))
         i++;
     if (argv[i] == '=' || argv[i] == '\0')
         return (true);

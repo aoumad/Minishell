@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:37:52 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/06 11:19:46 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/14 15:34:02 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static  long long  ft_atoi_exit(const char *str, int i, int *status_error)
     {
         res = (res * 10) + (str[i] - '0');
         if ((i >= 18))
-            status_error = 1;
+            status_error = (int *)1;
     }
     return (res * minus);
 }
@@ -67,8 +67,8 @@ static void    check_numeric(char *arg)
 
 int builtin_exit(int argc, char **argv)
 {
-    int i;
-    long long rtn_atoi;
+    int         i;
+    long long   rtn_atoi;
     int         status_error;
     
     

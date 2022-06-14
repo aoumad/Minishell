@@ -6,14 +6,14 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 13:25:11 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/13 22:37:00 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/14 12:06:19 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char    *get_the_print_working_dir(int argc, char **argv);
-static int update_pwd(void);
+static char     *get_the_print_working_dir(int argc, char **argv);
+static int      update_pwd(void);
 
 int builtin_cd(int argc, char **argv)
 {
@@ -31,6 +31,7 @@ int builtin_cd(int argc, char **argv)
         ft_putendl_fd(dir, STDOUT_FILENO);
     if (update_pwd() == ERROR)
         return (EXIT_FAILURE);
+    return (0);
 }
 
 static char    *get_the_print_working_dir(int argc, char **argv)
@@ -65,7 +66,7 @@ static int update_pwd(void)
     }
     else // if no then i need to remove OLDPWD content and replace it 
         unset_the_var("OLDPWD"); // with the previous one before using cd
-    if (getcwd(path, MAX_BUF) == -1)
+    if (getcwd(path, MAX_BUF) == NULL)
     {
         ft_error("minishell", "cd", strerror(ENOMEM));
         return (ERROR);

@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:38:49 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/06 10:39:05 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/14 16:49:55 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int builtin_unset(int argc __attribute((unused)), char **argv)
     int j;
     int status;
 
+    i = 0;
     while (argv[i])
     {
         j = 0;

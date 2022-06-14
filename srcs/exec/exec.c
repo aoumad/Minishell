@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 21:47:12 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/13 16:08:34 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/14 16:49:24 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,19 @@ void    **execute_root(t_command *data, char **envp, t_list *list, char **argv)
         // }
         if (data[i + 1].num_cmd != NULL && data[i + 1] != 0)
             pipe(data->pipe_fd);
-        if (is_builtin_in == 0 || data[i + 1].num_cmd != 0)
+        if (is_builtin_in == false || data[i + 1].num_cmd != 0)
         {
             fork_status = 1;
             pid = fork();
         }
         //=====================
-        if (pid == 0 || is_builtin_in == FALSE || fork_status == 0)
+        if (pid == 0 || is_builtin_in == false || fork_status == 0)
         {
             envp = execute_process_builtin(data, i, envp);
             return (envp);
         }
+        else if (is_builtin_in != 0)
+            builtin_root(data[i].cmd);
         else
             close_fd(*data, i);
         i++;

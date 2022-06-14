@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 10:50:41 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/13 22:30:51 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/14 18:16:42 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int env_init(void)
         i++;
     }
     if (i == 0)
-        return (NULL);
+        return (0);
     g_env = (char **)malloc((i + 1) * sizeof(char *));
     if (!g_env)
     //     it should print an error message with a sytnax like bash does
@@ -67,7 +67,7 @@ char    *search_env(char *name)
     while (g_env[i])
     {
         if (!ft_strncmp(name, g_env[i], len_name) && 
-            g_env[i][len_name] != NULL)
+            g_env[i][len_name] == '=')
             return (g_env[i]);
         i++;
     }

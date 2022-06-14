@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 10:24:52 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/13 22:35:42 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/14 18:30:27 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <errno.h>
 # include <string.h>
 #include <stdbool.h>
+#include <stddef.h>
 #include "../libft/libft.h"
 
 # define MAX_BUF 200
@@ -42,18 +43,15 @@ enum tokens
     new_lin = '\n'
 };
 
-#define TRUE 1
-#define FALSE 0
-
 /*
 my global variables
 */
-extern char 			**g_env;
-// pid_t					g_pid;
-// int						g_error;
+char	                **g_env = NULL;
+// pid_t				g_pid;
+// int					g_error;
 int						g_status;
 int                     g_exit_value;
-// int						g_tester;
+// int					g_tester;
 struct s_builtins
 {
 	char	*name;
@@ -81,15 +79,12 @@ typedef struct s_redirection
     char                    *file;
     int                     type;
     int	                    fd;
-    int					    fd_stdout;
-	int					    fd_stdin;
     struct s_redirection*   next;
 } t_redirection;
 
 typedef struct s_command
 {
     char    **cmd;
-    int     num_of_args;
     int     num_cmd;
     int     pipe_fd[2];
     struct s_redirection *redirect;
@@ -140,38 +135,38 @@ int	ft_strcmp(char *s1, char *s2);
 
 
 // ===== builtin functions ====== //
-void    builtin_root(char **argv, t_command *cmd);
-int builtin_cd(int argc, char **argv);
-int builtin_echo(int argc __attribute((unused)), t_command *cmd);
-int builtin_env(int argc __attribute((unused)),
+int    builtin_root(char **argv);
+int     builtin_cd(int argc, char **argv);
+int     builtin_echo(int argc __attribute((unused)), char **argv);
+int     builtin_env(int argc __attribute((unused)),
     char **argv __attribute((unused)));
-int builtin_exit(int argc, char **argv);
-int builtin_export(int argc, char **argv);
-int builtin_check(char  *str);
-int builtin_pwd(int argc __attribute((unused)), 
+int     builtin_exit(int argc, char **argv);
+int     builtin_export(int argc, char **argv);
+int     builtin_check(char  *str);
+int     builtin_pwd(int argc __attribute((unused)), 
     char **argv __attribute((unused)));
-int builtin_unset(int argc __attribute((unused)), char **argv);
+int     builtin_unset(int argc __attribute((unused)), char **argv);
 
 
 //======================================
 // ==== ENV ===== //
-char    search_env(char *name);
+int     env_init(void);
+bool    check_var_is_char(char c);
+char    *search_env(char *name);
 char    *get_value(char *name);
-char    search_env(char *name);
 bool    check_var_on_env(char c);
 
 // ==== ENV MODIFY ====//
 int unset_the_var(char  *name);
 int put_the_var(char *str);
 int set_the_env(char *name, char *value);
-extern char **g_env;
 #include <stdbool.h>
 
 //=======================================
 //======= Execute utils ===== //
 char    *get_path(char **envp,  t_command *data);
-void    ft_command_not_found(char **paths, char *cmd, t_command *data);
-int open_file(t_redirection *redirect, char **env);
+void    ft_command_not_found(char **paths, char *cmd);
+int open_file(t_redirection *redirect);
 
 //====== execute function =====//
 char    **ft_exec(t_command *data, char **envp, int index, char **argv);

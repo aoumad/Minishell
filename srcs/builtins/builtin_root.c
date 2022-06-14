@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 15:15:39 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/13 22:31:57 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/14 16:48:33 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,15 @@ int builtin_check(char  *str)
     return (is_builtin);
 }
 
-void    builtin_root(char **argv, t_command *data)
+int    builtin_root(char **argv)
 {
     int   i;
 
-    i = builtin_check(data[0].cmd[0]);
+    i = builtin_check(argv[0]);
     if (i == -1)
-        return (builtin_exit(split_count(argv), argv));
+        return (builtin_exit(env_count(argv), argv));
     if (i == 0)
         return (ERROR);
-    return (g_builtins[i - 1].func(ft_wordcount(argv, " "), data->cmd));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+    return (g_builtins[i - 1].func(env_count(argv), argv));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 }
 

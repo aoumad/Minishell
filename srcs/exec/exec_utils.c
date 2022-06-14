@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:34:15 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/12 16:22:18 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/14 18:29:51 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char    *get_path(char **envp,  t_command *data)
     i = 0;
     while (ft_strnstr(envp[i], "PATH", 4) == NULL)
         i++;
-    paths = ft_split(envp[i] + 5, ":");
+    paths = ft_split(envp[i] + 5, ':');
     i = 0;
     while (paths[i])
     {
@@ -34,11 +34,11 @@ char    *get_path(char **envp,  t_command *data)
         free(path);
         i++;
     }
-    ft_command_not_found(paths, data->cmd[0], data);
+    ft_command_not_found(paths, data->cmd[0]);
     return (0);
 }
 
-void ft_command_not_found(char **paths, char *cmd, t_command *data)
+void ft_command_not_found(char **paths, char *cmd)
 {
     int i;
     
@@ -52,7 +52,7 @@ void ft_command_not_found(char **paths, char *cmd, t_command *data)
     exit(EXIT_FAILURE);
 }
 
-int open_file(t_redirection *redirect, char **env)
+int open_file(t_redirection *redirect) // later i will need a function like that =====> open_file(t_redirection *redirect, char **env)
 {
     int fd;
 
