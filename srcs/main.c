@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 09:30:42 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/13 10:33:04 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/15 15:55:13 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	ft_sigint(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
-	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 }
@@ -65,7 +64,7 @@ void	ft_sigquit(int sig)
 	(void)sig;
 }
 
-char	*ft_readline_signal(char *line, char **env, t_command *data, int index)
+char	*ft_readline_signal(char *line, t_command *data, int index)
 {
 	signal(SIGINT, ft_sigint);
 	signal(SIGQUIT, ft_sigquit);
@@ -75,7 +74,6 @@ char	*ft_readline_signal(char *line, char **env, t_command *data, int index)
 			ft_putstr_fd("exit\nminishell: exit: ", 2);
 			ft_putstr_fd(data[index].cmd[0], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
-			free_tabs(env);
 			exit(2);
 	}
 	return (line);
@@ -122,16 +120,21 @@ int main(int argc, char **argv, char **envp)
 	int index;
 	
 	index = 0;
+	(void)argv;
+	line = NULL;
 	g_env = ft_copy_tab(envp);
 	if (argc != 1)
-		return (ft_putstr("Error: not argument accepted\n"), 1);
+	{
+		ft_putstr_fd("Error: not argument accepted\n", 1);
+		return (1);
+	}
 	ft_print_title();
 	while (1)
 	{
-		line = ft_readline_signal(line, g_env, &data, index);
-		if (line[0] != NULL)
+		line = ft_readline_signal(line, &data, index);
+		if (line[0] != '\0')
 		{
-			g_env = execute_root(&data, g_env, &list, argv);
+			g_env = execute_root(&data, g_env, &list);
 		}
 		free(line);
 	}

@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 07:41:08 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/14 16:47:42 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/15 12:05:51 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int replace_str_env(char ***env, char *old_str, char *new_str)
     if (*env == NULL || old_str == NULL)
         return (ERROR);
     i = 0;
-    while (*env && (*env)[i] && (env)[i] != old_str)
+    while (*env && (*env)[i] && (*env)[i] != old_str)
         i++;
     if ((*env)[i] == NULL || (*env)[i] != old_str)
         return (ERROR); // -1 definition in status means there is nothing

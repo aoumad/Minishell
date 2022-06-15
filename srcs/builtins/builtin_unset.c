@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:38:49 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/14 16:49:55 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/15 16:07:13 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int builtin_unset(int argc __attribute((unused)), char **argv)
     while (argv[i])
     {
         j = 0;
-        while (argv[i][j] && check_var_on_env(argv[i][j]))
+        while (argv[i][j] && check_var_is_char(argv[i][j]))
             j++;
         if (argv[i][j] != '\0' || argv[i][0] == '\0')
         {

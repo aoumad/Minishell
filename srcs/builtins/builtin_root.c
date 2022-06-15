@@ -6,14 +6,14 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 15:15:39 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/14 16:48:33 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/15 11:42:31 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../../includes/minishell.h"
 #include <stdio.h>
 
-static const struct s_builtins	g_builtins[] = {
+const struct s_builtins	g_builtins[] = {
 	{"echo", builtin_echo},
 	{"cd", builtin_cd},
 	{"pwd", builtin_pwd},

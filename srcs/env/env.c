@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 10:50:41 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/14 18:16:42 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/15 16:08:36 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int env_init(void)
     int i;
     
     i = 0;
-    while (env && env[i])
+    while (env[i])
     {
         i++;
     }
