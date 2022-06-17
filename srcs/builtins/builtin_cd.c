@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 13:25:11 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/14 12:06:19 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/16 16:28:01 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static char    *get_the_print_working_dir(int argc, char **argv)
     {
         dir = get_value("HOME");
         if (dir == NULL)
-            ft_error("minishell", "cd", "HOME not set");
+            ft_error("minishell", "cd", " HOME not set");
     }
     else if (argv[1] && ft_strncmp(argv[1], "-", 2) == 0) // "cd -"
     {

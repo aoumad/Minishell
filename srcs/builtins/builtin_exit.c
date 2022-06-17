@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:37:52 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/14 15:34:02 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/17 01:56:18 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static  int		ft_isspace(char c)
 	return (0);
 }
 
-static  long long  ft_atoi_exit(const char *str, int i, int *status_error)
+/*long long  ft_atoi_exit(const char *str, int i, int *status_error)
 {
     long    minus;
     long long   res;
@@ -28,9 +28,14 @@ static  long long  ft_atoi_exit(const char *str, int i, int *status_error)
     minus = 1;
     res = 0;
     if (str[i] && (str[i] == '+' || str[i] == '-'))
-        if (str[i++] == '-')
+    {
+        if (str[i] == '-')
+        {
             minus *= -1;
-    while (str[i] && ft_isspace(str[i]))
+            i++;
+        }
+    }
+    while (str[i] && (ft_isspace(str[i]) || str[i] == '0'))
         i++;
     while (str[i] >= '0' && str[i] <= '9')
     {
@@ -39,6 +44,35 @@ static  long long  ft_atoi_exit(const char *str, int i, int *status_error)
             status_error = (int *)1;
     }
     return (res * minus);
+}*/
+
+long long	ft_atoi_exit(const char *str, int i, int *status_error)
+{
+	int			j;
+	long		neg;
+	long long	sum;
+
+	neg = 1;
+	sum = 0;
+	j = 0;
+	if (str[i] && (str[i] == '-' || str[i] == '+'))
+		if (str[i++] == '-')
+			neg *= -1;
+	while (str[i] && (ft_isspace(str[i]) || str[i] == '0'))
+		i++;
+	while (str[i] >= '0' && str[i] <= '9' && ++j)
+	{
+		sum = (sum * 10) + (str[i] - 48);
+		if (((i == 18 && neg == 1) && (str[i] > '7' && str[i] <= '9'))
+			|| ((i == 19 && neg == -1) && (str[i] == '9')))
+			*status_error = 1;
+		i++;
+	}
+	while (str[i++])
+		j++;
+	if ((j > 19 && neg == 1) || (j > 20 && neg == -1))
+		*status_error = 1;
+	return (sum * neg);
 }
 
 static void    exit_numeric_error(char *arg)
@@ -56,13 +90,16 @@ static void    check_numeric(char *arg)
     i = 0;
     if (arg[i] == '-' || arg[i] == '+')
         i++;
-    while (arg[i])
-    {
-        if (!ft_isspace(arg[i]))
-            if (arg[i] < 48 || arg[i] > 57)
-                exit_numeric_error(arg);
-        i++;
-    }
+	while (arg[i])
+	{
+		if (arg[i] != '\f' && arg[i] != '\t' && arg[i] != '\r'
+			&& arg[i] != '\v' && arg[i] != ' ')
+		{
+			if (arg[i] < 48 || arg[i] > 57)
+				exit_numeric_error(arg);
+		}
+		i++;
+	}
 }
 
 int builtin_exit(int argc, char **argv)
@@ -85,13 +122,14 @@ int builtin_exit(int argc, char **argv)
         ft_putstr_fd("minishell: exit: too many arguments\n", 2);
         g_status = 1;
     }
-    else if (argc == 2)
+    else
     {
         rtn_atoi = ft_atoi_exit(argv[1], 0, &status_error);
         if (status_error == 1)
             exit_numeric_error(argv[1]);
         g_status = rtn_atoi % 256;
     }
-    ft_putstr_fd("exit\n", STDERR_FILENO); // still didn't handle status return value
+    printf("%d\n", g_status);
+    ft_putstr_fd("exit\n", STDERR_FILENO);
     return (0);
 }

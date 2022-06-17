@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 10:24:52 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/15 16:07:10 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/17 04:12:58 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ enum tokens
 /*
 my global variables
 */
-char	                **g_env = NULL;
+char	                **g_env;
 // pid_t				g_pid;
 // int					g_error;
 int						g_status;
@@ -83,7 +83,7 @@ typedef struct s_redirection
 typedef struct s_command
 {
     char    **cmd;
-    int     num_cmd;
+    int     num_cmds; //cmd[0]
     int     pipe_fd[2];
     struct s_redirection *redirect;
 }        t_command;
@@ -139,6 +139,7 @@ int     builtin_env(int argc __attribute((unused)),
     char **argv __attribute((unused)));
 int     builtin_exit(int argc, char **argv);
 int     builtin_export(int argc, char **argv);
+void    exported_vars(void);
 int     builtin_check(char  *str);
 int     builtin_pwd(int argc __attribute((unused)), 
     char **argv __attribute((unused)));
@@ -147,7 +148,7 @@ int     builtin_unset(int argc __attribute((unused)), char **argv);
 
 //======================================
 // ==== ENV ===== //
-int     env_init(void);
+int     env_init(char **env);
 bool    check_var_is_char(char c);
 char    *search_env(char *name);
 char    *get_value(char *name);
@@ -169,14 +170,15 @@ int open_file(t_redirection *redirect);
 char    **ft_exec(t_command *data, char **envp, int index);
 char    **execute_process_builtin(t_command *data, int index, char  **envp);
 void    close_fd(t_command *data, int index, t_list *list);
-char    **execute_root(t_command *data, char **envp, t_list *list);
+char    **execute_root(t_command *data, char **envp);
 
 //========================================
 // ===== builtin_utils ==== //
-int replace_str_env(char ***env, char *old_str, char *new_str);
-int env_count(char **env);
-int add_to_env(char ***env, char *str);
-int remove_from_env(char ***env, char *str);
+int     replace_str_env(char ***env, char *old_str, char *new_str);
+int     env_count(char **env);
+int     add_to_env(char ***env, char *str);
+int     remove_from_env(char ***env, char *str);
+void	ft_free_env(char ***env);
 
 
 //=========================================

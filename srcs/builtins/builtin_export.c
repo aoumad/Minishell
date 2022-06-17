@@ -6,14 +6,13 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 11:54:41 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/14 16:06:43 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/16 21:37:21 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void exported_vars(void);
-static void sort_env(char **env);
+static char **sort_env(char **env);
 static bool check_arg(char *argv);
 
 int builtin_export(int argc, char **argv)
@@ -42,7 +41,7 @@ int builtin_export(int argc, char **argv)
     return (status);
 }
 
-static void exported_vars(void)
+void exported_vars(void)
 {
     char    **dup_env;
     int     i;
@@ -52,18 +51,28 @@ static void exported_vars(void)
     {
         ft_error("minishell", NULL, strerror(ENOMEM)); // "Cannot allocate memory" message
         return ;
-    }   
+    }
+    if (g_env == NULL)
+        return ;
     ft_memcpy(dup_env, g_env, (env_count(g_env) + 1) * sizeof(char *));
-    sort_env(dup_env);
+    i = 0;
+    dup_env = sort_env(dup_env);
     i = 0;
     while (dup_env[i])
     {
-        
+        g_env[i] = ft_strdup(dup_env[i]);
+        i++;
     }
+    i = 0;
+    while (g_env[i])
+	{
+        ft_putendl_fd(g_env[i], 1);
+		i++;
+	}
     free(dup_env);
 }
 
-static void sort_env(char **env)
+static char **sort_env(char **env)
 {
     int     i;
     int     j;
@@ -87,6 +96,7 @@ static void sort_env(char **env)
         }
         i++;
     }
+    return (env);
 }
 
 static bool check_arg(char *argv)

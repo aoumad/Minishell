@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 09:30:42 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/15 15:55:13 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/17 04:45:59 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void handler(int sig)
 	}
 }*/
 
-void	ft_sigint(int sig)
+/*void	ft_sigint(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
@@ -109,34 +109,78 @@ char	**ft_copy_tab(char **envp)
 	}
 	env[i] = NULL;
 	return (env);
-}
+}*/
 
 int main(int argc, char **argv, char **envp)
 {
 
-	char		*line;
-	t_command	data;
-	t_list		list;
-	int index;
-	
-	index = 0;
+	t_command	*data;
+	int i;
+
 	(void)argv;
-	line = NULL;
-	g_env = ft_copy_tab(envp);
-	if (argc != 1)
+	i = 0;
+	//data = NULL;
+	//data[0].cmd = NULL;
+	//data[0].cmd[0] = NULL;
+	g_env = NULL;
+	(void)argc;
+	/*if (argc == 1)
 	{
 		ft_putstr_fd("Error: not argument accepted\n", 1);
 		return (1);
-	}
-	ft_print_title();
-	while (1)
-	{
-		line = ft_readline_signal(line, &data, index);
-		if (line[0] != '\0')
-		{
-			g_env = execute_root(&data, g_env, &list);
-		}
-		free(line);
-	}
+	}*/
+    i = 0;
+    while (envp[i])
+    {
+        i++;
+    }
+    if (i == 0)
+        return (1);
+    g_env = (char **)malloc((i + 1) * sizeof(char *));
+    if (!g_env)
+            printf("g_env is empty");
+    i = 0;
+    while (envp[i])
+    {
+        g_env[i] = ft_strdup(envp[i]);
+        if (!g_env[i])
+        {
+            ft_free_env(&g_env);
+            return (ft_error("minishell", NULL, strerror(ENOMEM)));
+        }
+        i++;
+    }
+    g_env[i] = NULL;
+	//env_init(envp);
+	// i = 0;
+	// while (argv[i])
+	// 	i++;
+	
+	// while (argv[i])
+	// {
+	// 	data[i].cmd[0] = argv[i + 1];
+	// 	data->num_cmd++;
+	// 	i++;
+	// } 
+	data = malloc(sizeof(t_command) * 2);
+	/*data[0].cmd = malloc(sizeof(char) * 4);
+	data[0].cmd[0] = "echo";
+	data[0].cmd[1] = "-n";
+	data[0].cmd[2] = "chwads";
+	data[0].cmd[3] = NULL;*/
+	data[0].cmd = malloc(sizeof(char) * 2);
+	data[0].cmd[0] = "env";
+	data[0].cmd[1] = NULL;
+	data[0].num_cmds = 1;
+	/*data[1].cmd = malloc(sizeof(char) * 2);
+	data[1].cmd[0] = "cat";
+	data[1].cmd[1] = 0;*/
+	g_env = execute_root(data, envp);
+	i = 0;
+	// while (g_env[i])
+	// {
+	// 	printf("%s\n", g_env[i]);
+	// 	i++;
+	// }
     return 0;
 }

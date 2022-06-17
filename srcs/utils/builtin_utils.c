@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 07:41:08 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/15 12:05:51 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/17 04:12:49 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int env_count(char **env)
     int i;
 
     i = 0;
-    while (env && env[i])
+        // while (env && env[i])
+    while (env[i])
         i++;
     return (i);
 }
@@ -59,6 +60,7 @@ int remove_from_env(char ***env, char *str)
     }
     new_env[i] = NULL;
     free(*env);
+    *env = new_env;
     return (0);
 }
 
@@ -69,11 +71,27 @@ int replace_str_env(char ***env, char *old_str, char *new_str)
     if (*env == NULL || old_str == NULL)
         return (ERROR);
     i = 0;
-    while (*env && (*env)[i] && (*env)[i] != old_str)
+    while ((*env)[i] && (*env)[i] != old_str)
         i++;
-    if ((*env)[i] == NULL || (*env)[i] != old_str)
+    if ((*env)[i] != old_str)
         return (ERROR); // -1 definition in status means there is nothing
         // to replace in env and we gonna create new env_str
+    free(old_str);
     (*env)[i] = new_str;
     return (0);    
+}
+
+void	ft_free_env(char ***env)
+{
+	int	i;
+
+	i = 0;
+	while ((*env)[i] != NULL)
+	{
+		free((*env)[i]);
+		(*env)[i] = NULL;
+		i++;
+	}
+	free(*env);
+	*env = NULL;
 }

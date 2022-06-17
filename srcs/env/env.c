@@ -6,15 +6,14 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 10:50:41 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/15 16:08:36 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/16 21:07:10 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int env_init(void)
+int env_init(char **env)
 {
-    extern char **env;
     int i;
     
     i = 0;
@@ -26,15 +25,15 @@ int env_init(void)
         return (0);
     g_env = (char **)malloc((i + 1) * sizeof(char *));
     if (!g_env)
-    //     it should print an error message with a sytnax like bash does
+            printf("g_env is empty");
     i = 0;
     while (env[i])
     {
         g_env[i] = ft_strdup(env[i]);
         if (!g_env[i])
         {
-            // free the address of the g_env
-            // return an error message with a systax like bash does
+            ft_free_env(&g_env);
+            return (ft_error("minishell", NULL, strerror(ENOMEM)));
         }
         i++;
     }
@@ -56,18 +55,16 @@ char    *search_env(char *name)
 {
     int len_name;
     int i;
-    
     if (name == NULL || g_env == NULL)
         return (NULL);
-    // if (ft_strchr(name, '=') != NULL)
-    //     len_name = ft_strlen(ft_strchr(name, '=')) - ft_strlen(name);
-    // else
-    len_name = ft_strlen(name);
+    if (ft_strchr(name, '=') != NULL)
+        len_name = ft_strchr(name, '=') - name; // ABC=a ===> 3 of ABC 
+    else
+        len_name = ft_strlen(name);
     i = 0;
     while (g_env[i])
     {
-        if (!ft_strncmp(name, g_env[i], len_name) && 
-            g_env[i][len_name] == '=')
+        if (!ft_strncmp(name, g_env[i], len_name) && g_env[i][len_name] == '=')
             return (g_env[i]);
         i++;
     }
