@@ -6,13 +6,13 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:34:15 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/14 18:29:51 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/18 16:03:14 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char    *get_path(char **envp,  t_command *data)
+char    *get_path(char **envp,  t_command *data, int index)
 {
     char    **paths;
     char    *path;
@@ -27,14 +27,14 @@ char    *get_path(char **envp,  t_command *data)
     while (paths[i])
     {
         part_path = ft_strjoin(paths[i], "/");
-        path = ft_strjoin(part_path, data->cmd[0]);
+        path = ft_strjoin(part_path, data[index].cmd[0]);
         free(part_path);
         if (access(path, F_OK) == 0)
             return (path);
         free(path);
         i++;
     }
-    ft_command_not_found(paths, data->cmd[0]);
+    ft_command_not_found(paths, data[index].cmd[0]);
     return (0);
 }
 
@@ -50,24 +50,4 @@ void ft_command_not_found(char **paths, char *cmd)
     ft_putstr_fd(": command not found", 2);
     // i need to free the t_command to avoid leaks
     exit(EXIT_FAILURE);
-}
-
-int open_file(t_redirection *redirect) // later i will need a function like that =====> open_file(t_redirection *redirect, char **env)
-{
-    int fd;
-
-    if (redirect->type == IN)
-        fd = open(redirect->file, O_RDONLY);
-    if (redirect->type == OUT)
-        fd = open(redirect->file, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-    if (redirect->type == APPEND)
-        fd = open(redirect->file, O_WRONLY | O_APPEND | O_CREAT, 0664);
-    // if (redirect->type == HEREDOC)
-    //     fd = ft_heredoc() HEREDOC FUNCTION WITH INT TYPE, fd = ft_heredoc(...)
-    if (fd < 0)
-    {
-        ft_putstr_fd("minishell: ", 2);
-        return (perror(redirect->file), -1); // Error!!!: No such file or directory
-    }
-    return (fd);
 }

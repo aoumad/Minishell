@@ -6,113 +6,102 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 21:47:12 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/16 18:27:45 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/18 18:34:27 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char    **execute_root(t_command *data, char **envp) //, t_list *list need it later
+char    **execute_command(t_command *data, char **envp, int index)
 {
-    int status;
-    int is_builtin_in;
-    int i;
-    int pid;
-    int nb_args;
-    int fork_status;
+    char    *path;
+    int     pid;
     
+    path = get_path(envp, data, index);
     pid = -1;
-    nb_args = 0;
-    i = 0;
-    fork_status = 0;
-    status = 0;
-    int j = 0;
-    while (data[i].num_cmds > j)
+    if (data[index].redirect->type != NONE)
     {
-        //=====================
-        is_builtin_in = builtin_check(data[i].cmd[0]);
-        // if (is_builtin_in != 0)
-        // {
-        //     if (nb_args < data[i].num_of_args || data)
-        //         i++;
-        // }
-        /*if (data[i + 1].num_cmd != 0)
-            pipe(data->pipe_fd);
-        if (is_builtin_in == false || data[i + 1].num_cmd != 0)
-        {
-            fork_status = 1;
-            pid = fork();
-        }
-        //=====================
-        if (pid == 0 || is_builtin_in == false || fork_status == 0)
-        {
-            envp = execute_process_builtin(data, i, envp);
-        }
-        else if (is_builtin_in != 0)
-        {*/
-        builtin_root(data[i].cmd);
-        // }
-        // else
-        //     close_fd(data, i, list);
-        i++;
-        j++;
+        pid = fork();
+        if (pid == 0)
+            execve(path, data[index].cmd, envp);
+        else
+            waitpid(-1, 0, 0);
     }
-    /*i = 0;
-    while (data[i].num_cmd != 0)
-    {
-        waitpid(-1, &status, 0);
-        if (WIFEXITED(status))
-            g_exit_value = WEXITSTATUS(status);
-        i++;
-    }*/
+    else
+        execve(path, data[index].cmd, envp);
     return (envp);
 }
 
-/*void    close_fd(t_command *data, int index, t_list *list)
+char    **exec_1(t_command *data, int index, char **envp)
 {
-    if (index > 0)
-        close(data[index - 1].pipe_fd[0]);
-    if (data[index + 1].num_cmd != 0)
-        close(data[index + 1].pipe_fd[1]);
-    if (data[index + 1].num_cmd == 0 && index > 0)
+    if (index > 0 && data[index].num_cmds != 0)
     {
-        if (list->type == IN)
-            dup2(data[index].redirect->fd, STDIN_FILENO);
-        if (list->type == OUT)
-            dup2(data[index].redirect->fd, STDOUT_FILENO);
-        if (data[index].pipe_fd[1] != 0)    
-            close (data[index].pipe_fd[1]);
-        if (data[index].pipe_fd[0] != 0)
-            close (data[index].pipe_fd[0]);
-    }
-}*/
-
-/*char    **execute_process_builtin(t_command *data, int index, char  **envp)
-{
-    if ((index > 0) && data[index + 1].num_cmd)
-    {
-        dup2(data[index].pipe_fd[0], 0);
+        dup2(data[index].pipe_fd[0], STDIN_FILENO);
         close(data[index].pipe_fd[0]);
+        close(data[index].pipe_fd[1]);
     }
-    if (data[index + 1].num_cmd != 0)
+    if (data[index + 1].num_cmds != 0)
     {
-        dup2(data[index].pipe_fd[1], 1);
+        dup2(data[index].pipe_fd[1], STDOUT_FILENO);
         close(data[index].pipe_fd[0]);
+        close(data[index].pipe_fd[1]);
     }
     // if (data[index].redirect->file)
-    //     i need to call a redirection execution function
+    //     redirect_execution(data, envp);
     else
-        envp = ft_exec(data, envp, index);
+        envp = execute_command(data, envp, index);
     return (envp);
 }
 
-char    **ft_exec(t_command *data, char **envp, int index)
+char    **execute_root(t_command *data, char **envp, int index) //, t_list *list need it later
 {
-    char *path;
-        path = get_path(envp, data);
-        if (path != NULL)
-            execve(path, data[index].cmd, envp);
-        free(path);
-        return (envp);
+    int status;
+    int i;
+    int j;
+    int pid;
+    int nb_args;
+
+    j = index;
+    i = index; // ch7al mne data[index] 3ndi
+    status = 0;
+    nb_args = 0;
+    pid = -1;
+    while(--i)
+    {
+        pid  = ft_pipe_built(data, pid, j);
+        if (pid == 0 || (data[j].is_builtin_in != 0 && data[j].fork == 0 && index > 0))
+        {
+            envp = exec_1(data, index, envp);
+            return (envp);
+        }
+        else
+        {
+            close(data[index].pipe_fd[0]);
+            close(data[index].pipe_fd[1]);
+        }
+        index++;
+    }
+    while (--j)
+    {
+        	waitpid(-1, &status, 0);
+		if (WIFEXITED(status))
+			g_exit_value = WEXITSTATUS(status);
+    }
     return (envp);
-}*/
+}
+
+int ft_pipe_built(t_command *data, int pid, int index)
+{
+    int i;
+
+    i = data[index].num_cmds;
+    data[index].is_builtin_in = builtin_check(data[index].cmd[0]);
+    if (data[index + 1].num_cmds != 0)
+        pipe(data[index].pipe_fd);
+    if (data[index].is_builtin_in == 0 && index > 0)
+    {
+        data[index].fork = 1; // nchofo blano
+        pid = fork();
+    }
+    return (pid);
+}

@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 10:24:52 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/17 04:12:58 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/18 18:34:33 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ typedef struct s_command
     char    **cmd;
     int     num_cmds; //cmd[0]
     int     pipe_fd[2];
+    int     fork;
+    int     is_builtin_in;
     struct s_redirection *redirect;
 }        t_command;
 
@@ -158,19 +160,18 @@ bool    check_var_is_char(char c);
 int unset_the_var(char  *name);
 int put_the_var(char *str);
 int set_the_env(char *name, char *value);
-#include <stdbool.h>
 
 //=======================================
 //======= Execute utils ===== //
-char    *get_path(char **envp,  t_command *data);
+char    *get_path(char **envp,  t_command *data, int index);
 void    ft_command_not_found(char **paths, char *cmd);
-int open_file(t_redirection *redirect);
+int     open_file(t_redirection *redirect);
 
 //====== execute function =====//
-char    **ft_exec(t_command *data, char **envp, int index);
-char    **execute_process_builtin(t_command *data, int index, char  **envp);
-void    close_fd(t_command *data, int index, t_list *list);
-char    **execute_root(t_command *data, char **envp);
+char    **execute_root(t_command *data, char **envp, int index);
+char    **execute_command(t_command *data, char **envp, int index);
+char    **exec_1(t_command *data, int index, char **envp);
+int     ft_pipe_built(t_command *data, int pid, int index);
 
 //========================================
 // ===== builtin_utils ==== //
