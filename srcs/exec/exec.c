@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 21:47:12 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/18 18:34:27 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/18 23:53:05 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char    **exec_1(t_command *data, int index, char **envp)
 
 char    **execute_root(t_command *data, char **envp, int index) //, t_list *list need it later
 {
-    int status;
+    // int status;
     int i;
     int j;
     int pid;
@@ -63,13 +63,13 @@ char    **execute_root(t_command *data, char **envp, int index) //, t_list *list
 
     j = index;
     i = index; // ch7al mne data[index] 3ndi
-    status = 0;
+    // status = 0;
     nb_args = 0;
     pid = -1;
     while(--i)
     {
         pid  = ft_pipe_built(data, pid, j);
-        if (pid == 0 || (data[j].is_builtin_in != 0 && data[j].fork == 0 && index > 0))
+        if (pid == 0 || (data[j].is_builtin_in == 0 && data[j].fork == 0 && index > 0))
         {
             envp = exec_1(data, index, envp);
             return (envp);
@@ -81,27 +81,24 @@ char    **execute_root(t_command *data, char **envp, int index) //, t_list *list
         }
         index++;
     }
-    while (--j)
-    {
-        	waitpid(-1, &status, 0);
-		if (WIFEXITED(status))
-			g_exit_value = WEXITSTATUS(status);
-    }
+    // while (--j)
+    // {
+    //     	waitpid(-1, &status, 0);
+	// 	if (WIFEXITED(status))
+	// 		g_exit_value = WEXITSTATUS(status);
+    // }
     return (envp);
 }
 
 int ft_pipe_built(t_command *data, int pid, int index)
 {
-    int i;
-
-    i = data[index].num_cmds;
     data[index].is_builtin_in = builtin_check(data[index].cmd[0]);
     if (data[index + 1].num_cmds != 0)
         pipe(data[index].pipe_fd);
     if (data[index].is_builtin_in == 0 && index > 0)
     {
-        data[index].fork = 1; // nchofo blano
         pid = fork();
+        data[index].fork = 1; // nchofo blano
     }
     return (pid);
 }
