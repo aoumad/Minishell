@@ -44,16 +44,15 @@ int check_pipe(char *str, t_list **current)
     c = 0;
     i = 0;
     (*current) = (*current)->next;
-    while (cherche_symbol((*current)->str[0], " \t\n\v\f\r") && (*current) != NULL)
-        (*current) = (*current)->next; 
-    
+    while (cherche_symbol((*current)->str[0], " \t\n\v\f\r") && ((*current)->type ==char_null))
+        (*current) = (*current)->next;  
     while (str[i])
     {
         if (str[i] == pipe_token)
             c++;
-    i++;
+        i++;
     }
-    if (c != 1 || (*current)->type == pipe_token || (*current) != NULL)
+    if (c != 1 || (*current)->type == pipe_token || (*current)->type ==char_null)
         return (0);
     return (1);
 }

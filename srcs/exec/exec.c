@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 21:47:12 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/20 17:00:49 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/20 17:11:57 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ void execute_root(t_command *data, char **envp) //, t_list *list need it later
     while(i < data[i].num_cmds)
     {
        // if (i > 0)
-            pid  = ft_pipe_built(data, pid, i);
-    //printf("the pid is %d\n",pid);
+        pid  = ft_pipe_built(data, pid, i);
+        printf("the pid is %d\n",pid);
    // puts("heeeeeere");
         if (pid == 0 || (data[i].is_builtin_in != 0 && data[i].fork == 0))
         {
@@ -99,9 +99,10 @@ void execute_root(t_command *data, char **envp) //, t_list *list need it later
 int ft_pipe_built(t_command *data, int pid, int index)
 {
     data[index].is_builtin_in = builtin_check(data[index].cmd[0]);
-    //printf("the nbr %d\n",data[index].is_builtin_in);
+    printf("the nbr %d\n",data[index].is_builtin_in);
     if (data[index].num_cmds > 1 && index > 0)
         pipe(data[index].pipe_fd);
+    printf("hello nbr\n");
     if (data[index].is_builtin_in == 0 && data[index].num_cmds > 1)
     {
         pid = fork();

@@ -124,10 +124,10 @@ int main(int ac, char **av, char **envp)
 			cmd = ft_parser(&head,buffer,envp);
 			execute_root(cmd, g_env);
 		}
-		if(!test)
-			deleteList(&head);
-		free_all(cmd);
-		free(buffer);
+		// if(!test)
+		// 	deleteList(&head);
+		// free_all(cmd);
+		// free(buffer);
     }
     return 0;
 }
