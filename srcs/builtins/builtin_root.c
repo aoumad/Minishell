@@ -31,7 +31,8 @@ int builtin_check(char  *str)
     
     i = 0;
     is_builtin = 0;
-    if (ft_strncmp(str, "NULL", 4) || ft_strncmp(str, "exit", 5))
+   // printf("---/%s\n",str);
+    if (!str || !ft_strcmp(str, "exit"))
         is_builtin = -1;
     while (g_builtins[i].name != NULL)
     {

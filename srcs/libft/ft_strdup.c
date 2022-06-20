@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/15 13:13:17 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/15 14:36:12 by aoumad           ###   ########.fr       */
+/*   Created: 2022/06/15 13:13:14 by aoumad            #+#    #+#             */
+/*   Updated: 2022/06/15 14:35:59 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strdup(char *s1)
 {
-	char			*s;
-	unsigned int	i;
+	char	*dup;
+	int		i;
 
-	if (!s1 || !s2)
+	dup = (char *)malloc(sizeof(char) * (ft_strlen(s1) + 1));
+	if (!dup)
 		return (NULL);
-	s = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!s)
-		return (NULL);
-	i = 0;
-	while (*s1)
-		s[i++] = *(s1++);
-	while (*s2)
-		s[i++] = *(s2++);
-	s[i] = 0;
-	return (s);
-}	
+	i = -1;
+	while (s1[++i])
+		dup[i] = s1[i];
+	dup[i] = 0;
+	return (dup);
+}

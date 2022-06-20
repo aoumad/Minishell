@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 21:47:12 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/18 23:53:05 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/20 17:00:49 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,52 +34,58 @@ char    **execute_command(t_command *data, char **envp, int index)
 
 char    **exec_1(t_command *data, int index, char **envp)
 {
-    if (index > 0 && data[index].num_cmds != 0)
+    if (index > 0 && data[index].num_cmds > 1)
     {
         dup2(data[index].pipe_fd[0], STDIN_FILENO);
-        close(data[index].pipe_fd[0]);
-        close(data[index].pipe_fd[1]);
+       // close(data[index].pipe_fd[0]);
+       // close(data[index].pipe_fd[1]);
     }
-    if (data[index + 1].num_cmds != 0)
+    if (data[index].num_cmds != 0)
     {
         dup2(data[index].pipe_fd[1], STDOUT_FILENO);
-        close(data[index].pipe_fd[0]);
-        close(data[index].pipe_fd[1]);
+       // close(data[index].pipe_fd[0]);
+       // close(data[index].pipe_fd[1]);
     }
     // if (data[index].redirect->file)
     //     redirect_execution(data, envp);
-    else
+   // printf(" the bulting %d\n",data[index].is_builtin_in);
+    if (data[index].is_builtin_in != 0)
+        builtin_root(data[index].cmd);
+    else if (data[index].is_builtin_in == 0)
         envp = execute_command(data, envp, index);
     return (envp);
 }
 
-char    **execute_root(t_command *data, char **envp, int index) //, t_list *list need it later
+void execute_root(t_command *data, char **envp) //, t_list *list need it later
 {
     // int status;
     int i;
-    int j;
     int pid;
     int nb_args;
 
-    j = index;
-    i = index; // ch7al mne data[index] 3ndi
+    i = 0; // ch7al mne data[index] 3ndi
     // status = 0;
     nb_args = 0;
     pid = -1;
-    while(--i)
+    while(i < data[i].num_cmds)
     {
-        pid  = ft_pipe_built(data, pid, j);
-        if (pid == 0 || (data[j].is_builtin_in == 0 && data[j].fork == 0 && index > 0))
+       // if (i > 0)
+            pid  = ft_pipe_built(data, pid, i);
+    //printf("the pid is %d\n",pid);
+   // puts("heeeeeere");
+        if (pid == 0 || (data[i].is_builtin_in != 0 && data[i].fork == 0))
         {
-            envp = exec_1(data, index, envp);
-            return (envp);
+            //puts("here1");
+            envp = exec_1(data, i, envp);
+            return ;
+            //return (envp);
         }
         else
         {
-            close(data[index].pipe_fd[0]);
-            close(data[index].pipe_fd[1]);
+           // close(data[i].pipe_fd[0]);
+           //close(data[i].pipe_fd[1]);
         }
-        index++;
+        i++;
     }
     // while (--j)
     // {
@@ -87,15 +93,16 @@ char    **execute_root(t_command *data, char **envp, int index) //, t_list *list
 	// 	if (WIFEXITED(status))
 	// 		g_exit_value = WEXITSTATUS(status);
     // }
-    return (envp);
+   //return (envp);
 }
 
 int ft_pipe_built(t_command *data, int pid, int index)
 {
     data[index].is_builtin_in = builtin_check(data[index].cmd[0]);
-    if (data[index + 1].num_cmds != 0)
+    //printf("the nbr %d\n",data[index].is_builtin_in);
+    if (data[index].num_cmds > 1 && index > 0)
         pipe(data[index].pipe_fd);
-    if (data[index].is_builtin_in == 0 && index > 0)
+    if (data[index].is_builtin_in == 0 && data[index].num_cmds > 1)
     {
         pid = fork();
         data[index].fork = 1; // nchofo blano

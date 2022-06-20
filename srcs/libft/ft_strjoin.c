@@ -1,36 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/15 15:12:12 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/15 15:12:34 by aoumad           ###   ########.fr       */
+/*   Created: 2022/06/15 13:13:17 by aoumad            #+#    #+#             */
+/*   Updated: 2022/06/15 14:36:12 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	char			*substr;
-	size_t			i;
-	size_t			len_str;
+	char			*s;
+	unsigned int	i;
 
+	if (!s1 || !s2)
+		return (NULL);
+	s = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!s)
 		return (NULL);
-	len_str = ft_strlen(s);
-	if (start >= len_str)
-		len = 0;
-	else if (len > len_str)
-		len = len_str;
-	substr = (char *)malloc(sizeof(char) * (len + 1));
-	if (!substr)
-		return (NULL);
-	i = -1;
-	while (++i < len && s[i])
-		substr[i] = s[i + start];
-	substr[i] = 0;
-	return (substr);
-}
+	i = 0;
+	while (*s1)
+		s[i++] = *(s1++);
+	while (*s2)
+		s[i++] = *(s2++);
+	s[i] = 0;
+	return (s);
+}	
