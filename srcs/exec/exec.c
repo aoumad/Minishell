@@ -5,111 +5,63 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/07 21:47:12 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/20 18:13:56 by aoumad           ###   ########.fr       */
+/*   Created: 2022/06/21 11:14:44 by aoumad            #+#    #+#             */
+/*   Updated: 2022/06/21 14:01:23 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char    **execute_command(t_command *data, char **envp, int index)
-{
-    char    *path;
-    int     pid;
-    path = get_path(envp, data, index);
-    pid = -1;
-    printf("%s\n", path);
-    if (data[index].redirect != NULL)
-    {
-        pid = fork();
-        if (pid == 0)
-            execve(path, data[index].cmd, envp);
-        else
-            waitpid(-1, 0, 0);
-    }
-    else
-        execve(path, data[index].cmd, envp);
-    return (envp);
-}
-
-char    **exec_1(t_command *data, int index, char **envp)
-{
-    if (index > 0 && data[index].num_cmds > 1)
-    {
-        dup2(data[index].pipe_fd[0], STDIN_FILENO);
-        printf("1\n");
-        close(data[index].pipe_fd[0]);
-        //close(data[index].pipe_fd[1]);
-    }
-    if (data[index].num_cmds != 0)
-    {
-        dup2(data[index].pipe_fd[1], STDOUT_FILENO);
-       //close(data[index].pipe_fd[0]);
-       //close(data[index].pipe_fd[1]);
-    }
-    // if (data[index].redirect->file)
-    //     redirect_execution(data, envp);
-    if (data[index].is_builtin_in != 0)
-    {
-        builtin_root(data[index].cmd);
-    }
-    else if (data[index].is_builtin_in == 0)
-    {
-        envp = execute_command(data, envp, index);
-        printf(" the bulting %d\n",data[index].is_builtin_in);
-    }
-    return (envp);
-}
-
-void execute_root(t_command *data, char **envp) //, t_list *list need it later
+void    execute_root(t_command *data, char **envp)
 {
     int status;
     int i;
     int pid;
-    int nb_args;
+    int fd[2];
+    char *path;
+    int rtn_execve;
 
-    i = 0; // ch7al mne data[index] 3ndi
+    rtn_execve = 0;
+    i = 0;
     status = 0;
-    nb_args = 0;
     pid = -1;
-    while(i < data[i].num_cmds)
+    ft_save_io(fd);
+    while (i < data[0].num_cmds)
     {
-       // if (i > 0)
-        pid  = ft_pipe_built(data, pid, i);
-   // puts("heeeeeere");
-        if (pid == 0 || (data[i].is_builtin_in != 0 && data[i].fork == 0) || i == 0)
+        data[i].is_builtin_in = builtin_check(data[i].cmd[0]);
+        data[i].pipe_fd[0] = STDIN_FILENO;
+        data[i].pipe_fd[1] = STDOUT_FILENO;
+        if (data[0].num_cmds > 1 && i != data[0].num_cmds - 1)
+            pipe(data[i].pipe_fd);
+        dup2(data[i].pipe_fd[0], STDIN_FILENO);
+        dup2(data[i].pipe_fd[1], STDOUT_FILENO);
+            
+        if (data[i].is_builtin_in)
         {
-            printf("the pid is %d\n",pid);
-            //puts("here1");
-            envp = exec_1(data, i, envp);
-            //return (envp);
+            builtin_root(data[i].cmd);
+            continue;
         }
-        else
-        {
-           // close(data[i].pipe_fd[0]);
-           //close(data[i].pipe_fd[1]);
-        }
-        i++;
-    }
-    while (--i)
-    {
-        	waitpid(-1, &status, 0);
-		// if (WIFEXITED(status))
-		// 	g_exit_value = WEXITSTATUS(status);
-    }
-   //return (envp);
-}
-
-int ft_pipe_built(t_command *data, int pid, int index)
-{
-    data[index].is_builtin_in = builtin_check(data[index].cmd[0]);
-    printf("the nbr %d\n",data[index].is_builtin_in);
-    if (data[index].num_cmds > 1 && index > 0)
-        pipe(data[index].pipe_fd);
-    if (data[index].is_builtin_in == 0 && data[index].num_cmds > 1)
-    {
+        
         pid = fork();
-        data[index].fork = 1; // nchofo blano
-    }
-    return (pid);
+        data[i].fork = 1;
+        
+        if (pid == 0)
+        {
+            close(data[i].pipe_fd[0]);
+            close(data[i].pipe_fd[1]);
+            path = get_path(envp, data, i);
+            rtn_execve = execve(path, data[i].cmd, envp);
+            exit(126);
+        }
+        if (i == data[0].num_cmds - 1)
+            waitpid(pid, &status, 0);
+        while (1)
+        {
+            if (waitpid(-1, 0, 0) == -1)
+                break;
+        }
+        
+        i++;
+    }   
+    ft_reset_io(fd);
 }
