@@ -31,6 +31,7 @@ void open_files(t_command *cmd, int leng)
                 head = head->next;
             }
         }
+        printf("i :%d\n",i);
         i++;
     }
 }

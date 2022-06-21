@@ -122,12 +122,13 @@ int main(int ac, char **av, char **envp)
 				continue ;
 			}
 			cmd = ft_parser(&head,buffer,envp);
+			//open_files(cmd, cmd[0].num_cmds);
 			execute_root(cmd, g_env);
 		}
-		// if(!test)
-		// 	deleteList(&head);
-		// free_all(cmd);
-		// free(buffer);
+		if(!test)
+			deleteList(&head);
+		free_all(cmd);
+		free(buffer);
     }
     return 0;
 }
