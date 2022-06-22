@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 11:14:44 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/22 17:10:51 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/22 19:32:45 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,23 @@ void    execute_root(t_command *data, char **envp)
         {
             dup2(data[i].next[1], STDOUT_FILENO);
             close(data[i].next[1]);
+        }
+        if (data[i].redirect)
+        {
+            t_redirection   *head;
+             while (head->next != NULL)
+                head = head->next;
+            pipe(data[i].redirect->redirect_fd);
+            if (data[i].redirect->type == IN)
+            {
+                dup2(data[i].redirect->fd, STDIN_FILENO);
+                close(data[i].redirect->fd);
+            }
+            if (data[i].redirect->type == OUT || data[i].redirect->type == APPEND)
+            {
+                dup2(data[i].redirect->fd, STDOUT_FILENO);
+                close(data[i].redirect->fd);
+            }
         }
         if (data[i].is_builtin_in)
         {

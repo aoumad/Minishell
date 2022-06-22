@@ -65,6 +65,7 @@ typedef struct s_redirection
     char *file;
     int type;
     int fd;
+    int redirect_fd[2];
     struct s_redirection* next;
 } t_redirection;
 

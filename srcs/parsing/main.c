@@ -122,7 +122,7 @@ int main(int ac, char **av, char **envp)
 				continue ;
 			}
 			cmd = ft_parser(&head,buffer, g_env);
-			//open_files(cmd, cmd[0].num_cmds);
+			open_files(cmd, cmd[0].num_cmds);
 			execute_root(cmd, g_env);
 		}
 		// if(!test)
