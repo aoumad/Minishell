@@ -76,7 +76,6 @@ typedef struct s_command
     int     pipe[2];
     int     *prev;
     int     *next;
-    int     fork;
     int     is_builtin_in;
     struct s_redirection *redirect;
 }		t_command;

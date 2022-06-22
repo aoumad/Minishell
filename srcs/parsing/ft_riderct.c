@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-void open_files(t_command *cmd, int leng)
+void open_files(t_command *data, int leng)
 {
     int i;
     t_redirection *head;
@@ -21,8 +21,8 @@ void open_files(t_command *cmd, int leng)
                 }
                 else if (head->type == APPEND)
                     head->fd = open(head->file, O_WRONLY | O_APPEND | O_CREAT, 0664);
-                // if (redirect->type == HEREDOC)
-                //     fd = ft_heredoc() HEREDOC FUNCTION WITH INT TYPE, fd = ft_heredoc(...)
+                if (redirect->type == HEREDOC)
+                    fd = ft_heredoc(data, i, head->file)
                 if (head->fd < 0)
                 {
                     //printf("minishell: ");
@@ -31,7 +31,6 @@ void open_files(t_command *cmd, int leng)
                 head = head->next;
             }
         }
-        printf("i :%d\n",i);
         i++;
     }
 }
