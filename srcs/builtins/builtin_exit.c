@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:37:52 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/23 20:14:52 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/23 22:04:47 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ static void    check_numeric(char *arg, int *rtn_numeric)
 			if (arg[i] < 48 || arg[i] > 57)
             {
 				exit_numeric_error(arg);
-                rtn_numeric = 1;
+                *rtn_numeric = 1;
                 break;
             }
 		}
@@ -126,7 +126,7 @@ int builtin_exit(int argc, char **argv)
         exit (0);
     }
     if (argv[1] != NULL)
-        check_numeric(argv[1], rtn_numeric);
+        check_numeric(argv[1], &rtn_numeric);
     while (argv[i])
         i++;
     if (i > 2)

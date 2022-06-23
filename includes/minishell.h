@@ -138,7 +138,7 @@ bool    check_var_is_char(char c);
 
 // ==== ENV MODIFY ====//
 int unset_the_var(char  *name);
-int put_the_var(char *str);
+int put_the_var(char *str, int test);
 int set_the_env(char *name, char *value);
 
 //=======================================
@@ -155,7 +155,7 @@ void execute_root(t_command *data, char **envp);
 
 //========================================
 // ===== builtin_utils ==== //
-int     replace_str_env(char ***env, char *old_str, char *new_str);
+int     replace_str_env(char ***env, char *old_str, char *new_str, int test);
 int     env_count(char **env);
 int     add_to_env(char ***env, char *str);
 int     remove_from_env(char ***env, char *str);
