@@ -85,6 +85,11 @@ typedef struct s_command
 void    ft_reset_io(int fd[]);
 void    ft_save_io(int fd[]);
 
+//========== HEREDOC FUNCTIONS =========
+int    ft_heredoc(t_command *data, int index, char *eof);
+char *handl_herdoc(char *str);
+int delimiter_check(char *line, char *eof);
+
 t_list *ft_lexer(char *line , char **env);
 t_list	*ft_add(char *line, int start, int end, int type);
 int search_token(char token);
@@ -92,6 +97,7 @@ int	ft_strlen(char *s);
 int ft_check(t_list** head, char *line);
 t_command *ft_parser(t_list** head, char *line , char **env);
 char	**ft_split(char const *s, char c);
+char *check_dollar(int *j, char *str, char *new, char **env);
 int	ft_strcmp(char *s1, char *s2);
 char	*ft_strdup_n(char *src);
 //char    *find_commande(char *cmd, char **envp);
@@ -105,6 +111,7 @@ void open_files(t_command *cmd, int leng);
 int cherche_symbol(char c, char *str);
 void deleteList(t_list** head_ref);
 void free_all(t_command *cmd);
+int line_empty(char *str);
 /////////////////
 // ===== builtin functions ====== //
 int    builtin_root(char **argv);

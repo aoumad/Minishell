@@ -4,6 +4,7 @@ void open_files(t_command *cmd, int leng)
 {
     int i;
     t_redirection *head;
+    int fd;
 
     i = 0;
     while (i < leng)
@@ -21,16 +22,14 @@ void open_files(t_command *cmd, int leng)
                 }
                 else if (head->type == APPEND)
                     cmd[i].redirect->fd = open(head->file, O_WRONLY | O_APPEND | O_CREAT, 0664);
-                // if (redirect->type == HEREDOC)
-                //     fd = ft_heredoc(data, i, head->file)
+                if (head->type == HEREDOC)
+                    cmd[i].redirect->fd = ft_heredoc(cmd, i, head->file);
                 if (head->fd < 0)
-                {
-                    //printf("minishell: ");
                     perror("minishell: ");
-                }
                 head = head->next;
             }
         }
         i++;
     }
+    return ;
 }
