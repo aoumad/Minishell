@@ -12,6 +12,7 @@
 #include <fcntl.h>
 #include <stdbool.h>
 #include <errno.h>
+#include <limits.h>
 
 # define MAX_BUF 200
 # define ERROR	-1
@@ -121,12 +122,22 @@ int     builtin_echo(int argc __attribute((unused)), char **argv);
 int     builtin_env(int argc __attribute((unused)),
 	char **argv __attribute((unused)));
 int     builtin_exit(int argc, char **argv);
+void	builtin_exit_2(char **argv, int rtn_numeric);
+
+//===== export ==========//
+bool	error_symbol(char *argv);
 int     builtin_export(int argc, char **argv);
+char	*skip_symbol(char *argv);
+int		export_2(char **argv, char *new, int test, int i);
 void    exported_vars(void);
+char	**sort_env(char **env);
+bool	check_arg(char *argv);
+
 int     builtin_check(char  *str);
 int     builtin_pwd(int argc __attribute((unused)), 
 	char **argv __attribute((unused)));
 int     builtin_unset(int argc __attribute((unused)), char **argv);
+void	capital_handler(char *str);
 
 
 //======================================
@@ -138,9 +149,10 @@ char    *get_value(char *name);
 bool    check_var_is_char(char c);
 
 // ==== ENV MODIFY ====//
-int unset_the_var(char  *name);
-int put_the_var(char *str, int test);
-int set_the_env(char *name, char *value);
+int 		unset_the_var(char  *name);
+int 		put_the_var(char *str, int test);
+int 		set_the_env(char *name, char *value);
+long long	ft_atoi_exit(const char *str, int i, int *status_error);
 
 //=======================================
 //======= Execute utils ===== //

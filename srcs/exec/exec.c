@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 11:14:44 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/25 11:06:22 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/26 21:16:21 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ void    execute_root(t_command *data, char **envp)
             }
             else
             {
-                 path = get_path(envp, data, i);
+                capital_handler(data[i].cmd[0]);
+                path = get_path(envp, data, i);
                 rtn_execve = execve(path, data[i].cmd, envp);
             }
             exit(g_status);

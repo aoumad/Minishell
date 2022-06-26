@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:01:28 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/26 17:55:06 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/26 22:51:56 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int put_the_var(char *str, int test)
 	status = replace_str_env(&g_env, old_var, new_var, test);
 	if (status == ERROR)
 	{
+		printf("hello\n");
 		status = add_to_env(&g_env, new_var);
 		if (status == ERROR)
 			return (ft_error("minishell", NULL, strerror(ENOMEM)));
@@ -62,4 +63,40 @@ int set_the_env(char *name, char *value)
 	status = put_the_var(var, 0);
 	free(var);
 	return (status);
-} 
+}
+
+static	int	ft_isspace(char c)
+{
+	if (c == '\f' || c == '\t' || c == '\n' || c == '\r'
+		|| c == '\v' || c == ' ')
+		return (1);
+	return (0);
+}
+
+long long	ft_atoi_exit(const char *str, int i, int *status_error)
+{
+	int			j;
+	long		neg;
+	long long	sum;
+	
+	neg = 1;
+	sum = 0;
+	j = 0;
+	if (!str)
+		return (0);
+	if ((str[i] == '-' || str[i] == '+'))
+		if (str[i++] == '-')
+			neg *= -1;
+	while (str[i] && (ft_isspace(str[i]) || str[i] == '0'))
+		i++;
+	while (str[i] >= '0' && str[i] <= '9' && ++j)
+	{
+		sum = (sum * 10) + (str[i] - 48);
+		if (sum > INT_MAX || sum < INT_MIN)
+			*status_error = 1;
+		i++;
+	}
+	while (str[i++])
+		j++;
+	return (sum * neg);
+}

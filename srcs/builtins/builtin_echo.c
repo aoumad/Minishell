@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 17:12:36 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/25 15:15:31 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/26 22:04:45 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,24 @@ int	builtin_echo(int argc __attribute((unused)), char **argv)
 	if (n_flag == true)
 		ft_putchar_fd('\n', 1);
 	return (0);
+}
+
+void	capital_handler(char *str)
+{
+	char	*old_str;
+	char	*rtn_str;
+	int		i;
+
+	old_str = ft_strdup(str);
+	i = 0;
+	while (i < ft_strlen(str))
+	{
+		if (str[i] >= 'A' && str[i] <= 'Z')
+			str[i] += 32;
+		i++;
+	}
+	if (ft_strcmp(str, "unset") && ft_strcmp(str, "cd")
+		&& ft_strcmp(str, "export") && ft_strcmp(str, "exit"))
+		rtn_str = ft_strdup(str);
+	return ;
 }

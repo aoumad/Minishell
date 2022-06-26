@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 07:41:08 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/26 18:05:07 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/26 20:29:01 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,10 @@ int	add_to_env(char ***env, char *str)
 	int		i;
 
 	new_env = (char **)malloc((env_count(*env) + 2) * sizeof(char *));
-	if (new_env)
+	if (!new_env)
 	{
 		ft_error("minishell", NULL, strerror(ENOMEM));
+		printf("\n");
 		return (0);
 	}
 	i = 0;
