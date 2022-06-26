@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 11:14:44 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/23 19:55:41 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/25 11:06:22 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,37 +67,16 @@ void    execute_root(t_command *data, char **envp)
             close(data[i].next[1]);
         }
         if (data[i].redirect)
-        {
-            // t_redirection   *head;
-            // while (head->next)
-            //     head = head->next;
-            // pipe(data[i].redirect->redirect_fd);
-            if (data[i].redirect->type == IN || data[i].redirect->type == HEREDOC)
-            {
-                dup2(data[i].redirect->fd, STDIN_FILENO);
-                close(data[i].redirect->fd);
-            }
-            if (data[i].redirect->type == OUT || data[i].redirect->type == APPEND || 
-                data[i].redirect->type == HEREDOC)
-            {
-                dup2(data[i].redirect->fd, STDOUT_FILENO);
-                close(data[i].redirect->fd);
-            }
-        }
+            redirect_handler(data, i);
         if (data[i].is_builtin_in  && data[i].redirect == NULL)
         {
             builtin_root(data[i++].cmd);
             ft_reset_io(fd);
-            // if (i == data[0].num_cmds - 1)
-            //     waitpid(pid, &status, 0);
-            // while (1)
-            // {
-            //     if (waitpid(-1, 0, 0) == -1)
-            //         break;
-            // }
             continue;
         }
-        pid = fork();
+        // path = get_path(envp, data, i);
+        // if (path != NULL)
+            pid = fork();
         if (pid == 0)
         {
             if (data[i].prev)
@@ -112,26 +91,17 @@ void    execute_root(t_command *data, char **envp)
             }
             else
             {
-                path = get_path(envp, data, i);
+                 path = get_path(envp, data, i);
                 rtn_execve = execve(path, data[i].cmd, envp);
             }
-            exit(126);
+            exit(g_status);
         }
-
         ft_reset_io(fd);
-        // if (i == data[0].num_cmds - 1)
-        //     waitpid(pid, &status, 0);
-        //                         printf("hello again\n");
-        // while (1)
-        // {
-        //     if (waitpid(-1, 0, 0) == -1)
-        //         break;
-        // }
         i++;
     }   
-     while (1)
-        {
-            if (waitpid(-1, 0, 0) == -1)
-                break;
-        }
+    while (1)
+    {
+        if (waitpid(-1, 0, 0) == -1)
+            break;
+    }
 }

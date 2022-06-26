@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/22 13:18:29 by snouae            #+#    #+#             */
+/*   Updated: 2022/06/25 20:48:59 by aoumad           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 
@@ -15,23 +27,23 @@ int	ft_strlen(char *s)
 
 char    **copy_env(char **envp)
 {
-    int     i;
-    char    **rtn_env;
-    int     index;
-    
-    i = -1;
-    index = 0;
-    while (envp[++i])
-        index++;
-    rtn_env = malloc(sizeof(char *) * (index + 1));
-    i = 0;
-    while (i < index)
-    {
-        rtn_env[i] = ft_strdup(envp[i]);
-        i++;
-    }
-    rtn_env[i] = NULL;
-    return (rtn_env);
+	int     i;
+	char    **rtn_env;
+	int     index;
+	
+	i = -1;
+	index = 0;
+	while (envp[++i])
+		index++;
+	rtn_env = malloc(sizeof(char *) * (index + 1));
+	i = 0;
+	while (i < index)
+	{
+		rtn_env[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	rtn_env[i] = NULL;
+	return (rtn_env);
 }
 
 int	ft_strcmp(char *s1, char *s2)
@@ -39,8 +51,6 @@ int	ft_strcmp(char *s1, char *s2)
 	int	i;
 
 	i = 0;
-	if(!s1 || !s2)
-		return (-1);
 	while (s1[i] != '\0' || s2[i] != '\0')
 	{
 		if (s1[i] != s2[i])
@@ -51,12 +61,13 @@ int	ft_strcmp(char *s1, char *s2)
 	}
 	return (s1[i] - s2[i]);
 }
+
 void handler(int sig)
 {
 	if (sig ==  SIGINT)
 	{
-	    printf("\n");
-        rl_on_new_line();
+		printf("\n");
+		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
@@ -83,18 +94,20 @@ int main(int ac, char **av, char **envp)
 	cmd = NULL;
 	(void)ac;
 	(void)av;
-	g_env = copy_env(envp);
-    if (!g_env)
-    {
-        ft_free_env(&g_env);
-        return (ft_error("minishell", NULL, strerror(ENOMEM)));
-    }
+	//env_init(envp);
+	 g_env = copy_env(envp);
+	if (!g_env)
+	{
+		ft_free_env(&g_env);
+		return (ft_error("minishell", NULL, strerror(ENOMEM)));
+	}
+	//g_st = 0;
 	while(1)
 	{
 		test = 0;
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, handler);
-		//rl_on_new_line();
+		rl_on_new_line();
 		//pause();
 		buffer = readline("\033[1mminishell$> \033[m");
 		 if (!buffer)
@@ -123,7 +136,8 @@ int main(int ac, char **av, char **envp)
 				test = 1;
 				continue ;
 			}
-			cmd = ft_parser(&head,buffer, g_env);
+			cmd = ft_parser(&head,buffer,g_env);
+			// printf("the leng %d\n", cmd[0].num_cmds);
 			open_files(cmd, cmd[0].num_cmds);
 			execute_root(cmd, g_env);
 		}
@@ -131,6 +145,6 @@ int main(int ac, char **av, char **envp)
 		// 	deleteList(&head);
 		// free_all(cmd);
 		// free(buffer);
-    }
-    return 0;
+	}
+	return 0;
 }

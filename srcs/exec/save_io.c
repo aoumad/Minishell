@@ -12,16 +12,16 @@
 
 #include "../../includes/minishell.h"
 
-void    ft_save_io(int fd[])
+void	ft_save_io(int fd[])
 {
-    fd[0] = dup(STDIN_FILENO);
-    fd[1] = dup(STDOUT_FILENO);
+	fd[0] = dup(STDIN_FILENO);
+	fd[1] = dup(STDOUT_FILENO);
 }
 
-void    ft_reset_io(int fd[])
+void	ft_reset_io(int fd[])
 {
-    dup2(fd[0], STDIN_FILENO);
-    close(fd[0]);
-    dup2(fd[1], STDOUT_FILENO);
-    close(fd[1]);
+	dup2(fd[0], STDIN_FILENO);
+	close(fd[0]);
+	dup2(fd[1], STDOUT_FILENO);
+	close(fd[1]);
 }

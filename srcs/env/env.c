@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 10:50:41 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/22 10:45:21 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/25 20:48:38 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,11 @@ int env_init(char **env)
     
     i = 0;
     while (env[i])
-    {
         i++;
-    }
+        
     if (i == 0)
         return (0);
-    g_env = (char **)malloc((i + 1) * sizeof(char *));
+    g_env = (char **)malloc(i * sizeof(char *));
     if (!g_env)
             printf("g_env is empty\n");
     i = 0;
