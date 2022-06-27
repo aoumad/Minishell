@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 11:14:44 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/26 21:16:21 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/27 15:57:25 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ void    execute_root(t_command *data, char **envp)
     i = 0;
     while (i < data[0].num_cmds)
     {
-        //if (data[i].redirect == NULL)
-            data[i].is_builtin_in = builtin_check(data[i].cmd[0]);
+        data[i].is_builtin_in = builtin_check(data[i].cmd[0]);
         if (data[i].next)
             pipe(data[i].next);
         ft_save_io(fd);
@@ -74,9 +73,7 @@ void    execute_root(t_command *data, char **envp)
             ft_reset_io(fd);
             continue;
         }
-        // path = get_path(envp, data, i);
-        // if (path != NULL)
-            pid = fork();
+        pid = fork();
         if (pid == 0)
         {
             if (data[i].prev)

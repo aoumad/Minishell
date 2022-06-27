@@ -6,13 +6,13 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:18:29 by snouae            #+#    #+#             */
-/*   Updated: 2022/06/26 21:14:46 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/27 14:13:48 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-
+// using unset PATH // should print command not found (fhmti..)
 int	ft_strlen(char *s)
 {
 	int	i;
@@ -94,21 +94,18 @@ int main(int ac, char **av, char **envp)
 	cmd = NULL;
 	(void)ac;
 	(void)av;
-	//env_init(envp);
 	 g_env = copy_env(envp);
 	if (!g_env)
 	{
 		ft_free_env(&g_env);
 		return (ft_error("minishell", NULL, strerror(ENOMEM)));
 	}
-	//g_st = 0;
 	while(1)
 	{
 		test = 0;
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, handler);
 		rl_on_new_line();
-		//pause();
 		buffer = readline("\033[1mminishell$> \033[m");
 		 if (!buffer)
 		 {
@@ -137,7 +134,6 @@ int main(int ac, char **av, char **envp)
 				continue ;
 			}
 			cmd = ft_parser(&head,buffer,g_env);
-			// printf("the leng %d\n", cmd[0].num_cmds);
 			open_files(cmd, cmd[0].num_cmds);
 			execute_root(cmd, g_env);
 		}

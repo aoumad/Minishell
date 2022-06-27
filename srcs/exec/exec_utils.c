@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:34:15 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/24 20:45:10 by snouae           ###   ########.fr       */
+/*   Updated: 2022/06/27 16:01:53 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,12 @@ char    *get_path(char **envp,  t_command *data, int index)
 
     i = 0;
     while (ft_strnstr(envp[i], "PATH", 4) == NULL)
+    {
+        if (ft_strnstr(envp[i], "PATH", 4) == NULL && envp[i + 1] == NULL)
+            ft_error("minishell", data[index].cmd[0],
+             ": No such file or directory\n");
         i++;
+    }
     paths = ft_split(envp[i] + 5, ':');
     i = 0;
     while (paths[i])
