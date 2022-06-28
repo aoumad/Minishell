@@ -6,13 +6,13 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:18:29 by snouae            #+#    #+#             */
-/*   Updated: 2022/06/27 14:13:48 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/28 17:51:35 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// using unset PATH // should print command not found (fhmti..)
+
 int	ft_strlen(char *s)
 {
 	int	i;
@@ -27,23 +27,23 @@ int	ft_strlen(char *s)
 
 char    **copy_env(char **envp)
 {
-	int     i;
-	char    **rtn_env;
-	int     index;
-	
-	i = -1;
-	index = 0;
-	while (envp[++i])
-		index++;
-	rtn_env = malloc(sizeof(char *) * (index + 1));
-	i = 0;
-	while (i < index)
-	{
-		rtn_env[i] = ft_strdup(envp[i]);
-		i++;
-	}
-	rtn_env[i] = NULL;
-	return (rtn_env);
+    int     i;
+    char    **rtn_env;
+    int     index;
+    
+    i = -1;
+    index = 0;
+    while (envp[++i])
+        index++;
+    rtn_env = malloc(sizeof(char *) * (index + 1));
+    i = 0;
+    while (i < index)
+    {
+        rtn_env[i] = ft_strdup(envp[i]);
+        i++;
+    }
+    rtn_env[i] = NULL;
+    return (rtn_env);
 }
 
 int	ft_strcmp(char *s1, char *s2)
@@ -66,10 +66,11 @@ void handler(int sig)
 {
 	if (sig ==  SIGINT)
 	{
-		printf("\n");
-		rl_on_new_line();
+	    printf("\n");
+        rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		g_status = 1;
 	}
 }
 
@@ -94,32 +95,27 @@ int main(int ac, char **av, char **envp)
 	cmd = NULL;
 	(void)ac;
 	(void)av;
-	 g_env = copy_env(envp);
-	if (!g_env)
-	{
-		ft_free_env(&g_env);
-		return (ft_error("minishell", NULL, strerror(ENOMEM)));
-	}
+	g_env = copy_env(envp);
+    if (!g_env)
+    {
+        ft_free_env(&g_env);
+        return (ft_error("minishell", NULL, strerror(ENOMEM)));
+    }
+	//g_st = 0;
 	while(1)
 	{
 		test = 0;
+		st_err = 0;
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, handler);
 		rl_on_new_line();
 		buffer = readline("\033[1mminishell$> \033[m");
-		 if (!buffer)
-		 {
+		if (!buffer)
 			 break;
-		 }
 		if (line_empty(buffer))
 		{
 			free(buffer);
 			continue;
-		}
-		if (!ft_strcmp(buffer, "exit"))
-		{
-			free (buffer);
-			return (write(2, "exit\n", 5), 0);
 		}
 		if (ft_strlen(buffer))
 		{
@@ -135,12 +131,14 @@ int main(int ac, char **av, char **envp)
 			}
 			cmd = ft_parser(&head,buffer,g_env);
 			open_files(cmd, cmd[0].num_cmds);
+			if (st_err)
+				continue ;
 			execute_root(cmd, g_env);
 		}
-		// if(!test)
-		// 	deleteList(&head);
-		// free_all(cmd);
-		// free(buffer);
-	}
-	return 0;
+		if(!test)
+			deleteList(&head);
+		free_all(cmd);
+		free(buffer);
+    }
+    return 0;
 }

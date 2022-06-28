@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 23:31:11 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/27 14:23:09 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/28 16:55:31 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,33 @@ int	export_2(char **argv, char *new, int test, int i)
 	else if (ft_strchr(new, '='))
 		status = put_the_var(new, test);
 	return (status);
+}
+
+char	**sort_env(char **env)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+	int		count;
+
+	count = env_count(env);
+	i = 0;
+	while (i < count - 1)
+	{
+		j = 0;
+		while (j < (count - 1))
+		{
+			if (ft_strcmp(env[j], env[j + 1]) > 0)
+			{
+				tmp = env[j];
+				env[j] = env[j + 1];
+				env[j + 1] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
+	return (env);
 }
 
 void	exported_vars(void)

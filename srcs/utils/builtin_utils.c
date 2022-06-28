@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 07:41:08 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/27 19:05:40 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/28 17:32:34 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int	add_to_env(char ***env, char *str)
 	new_env[i + 1] = NULL;
 	free(*env);
 	*env = new_env;
-	free(new_env);
 	return (0);
 }
 
@@ -84,7 +83,6 @@ int	remove_from_env(char *str)
 	new_env[j] = NULL;
 	free(g_env);
 	g_env = new_env;
-	free(new_env);
 	return (0);
 }
 
@@ -108,19 +106,4 @@ int	replace_str_env(char ***env, char *old_str, char *new_str, int test)
 	else
 		(*env)[i] = new_str;
 	return (0);
-}
-
-void	ft_free_env(char ***env)
-{
-	int	i;
-
-	i = 0;
-	while ((*env)[i] != NULL)
-	{
-		free((*env)[i]);
-		(*env)[i] = NULL;
-		i++;
-	}
-	free(*env);
-	*env = NULL;
 }

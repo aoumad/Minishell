@@ -6,23 +6,24 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 15:15:39 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/26 22:09:51 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/28 11:54:27 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../../includes/minishell.h"
+#include <stdio.h>
 
 const struct s_builtins	g_builtins[] = {
-	{"echo", builtin_echo},
-	{"cd", builtin_cd},
-	{"pwd", builtin_pwd},
-	{"env", builtin_env},
-	{"export", builtin_export},
-	{"unset", builtin_unset},
-	{NULL, NULL},
+{"echo", builtin_echo},
+{"cd", builtin_cd},
+{"pwd", builtin_pwd},
+{"env", builtin_env},
+{"export", builtin_export},
+{"unset", builtin_unset},
+{NULL, NULL},
 };
 
-int builtin_check(char  *str)
+int	builtin_check(char *str)
 {
 	int	cmd_len;
 	int	is_builtin;
@@ -30,7 +31,9 @@ int builtin_check(char  *str)
 
 	i = 0;
 	is_builtin = 0;
-	if (!str || !ft_strcmp(str, "exit"))
+	if (!str)
+		str = ft_strdup("");
+	if (!ft_strcmp(str, "exit"))
 		is_builtin = -1;
 	while (g_builtins[i].name != NULL)
 	{
@@ -44,7 +47,7 @@ int builtin_check(char  *str)
 
 int	builtin_root(char **argv)
 {
-	int   i;
+	int	i;
 
 	i = builtin_check(argv[0]);
 	if (i == -1)
@@ -52,4 +55,4 @@ int	builtin_root(char **argv)
 	if (i == 0)
 		return (ERROR);
 	return (g_builtins[i - 1].func(env_count(argv), argv));
-}	
+}

@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 11:54:41 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/27 19:06:43 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/28 17:12:37 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	builtin_export(int argc, char **argv)
 	char	*new;
 	int		test;
 
+	status = EXIT_SUCCESS;
 	test = 0;
 	if (argc == 1)
 		exported_vars();
@@ -66,38 +67,11 @@ int	builtin_export(int argc, char **argv)
 			new = skip_symbol(argv[i]);
 			if (ft_strcmp(new, argv[i]))
 				test = 1;
-			export_2(argv, new, test, i);
+			status = export_2(argv, new, test, i);
 			i++;
 		}
 	}
 	return (status);
-}
-
-char	**sort_env(char **env)
-{
-	int		i;
-	int		j;
-	char	*tmp;
-	int		count;
-
-	count = env_count(env);
-	i = 0;
-	while (i < count - 1)
-	{
-		j = 0;
-		while (j < (count - 1))
-		{
-			if (ft_strcmp(env[j], env[j + 1]) > 0)
-			{
-				tmp = env[j];
-				env[j] = env[j + 1];
-				env[j + 1] = tmp;
-			}
-			j++;
-		}
-		i++;
-	}
-	return (env);
 }
 
 bool	check_arg(char *argv)

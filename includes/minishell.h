@@ -13,6 +13,7 @@
 #include <stdbool.h>
 #include <errno.h>
 #include <limits.h>
+#include <dirent.h>
 
 # define MAX_BUF 200
 # define ERROR	-1
@@ -42,6 +43,7 @@ struct s_builtins
 my global variables
 */
 char	                **g_env;
+int                     st_err;
 // pid_t				g_pid;
 // int					g_error;
 int						g_status;
@@ -66,13 +68,13 @@ typedef struct s_list
 
 typedef struct s_redirection
 {
-	char *file;
-	int type;
-	int fd;
-	int redirect_fd[2];
-	struct s_redirection* next;
+    char *file;
+    int type;
+    int fd;
+    int status;
+    int redirect_fd[2];
+    struct s_redirection* next;
 } t_redirection;
-
 typedef struct s_command
 {
 	char	**cmd;
@@ -110,6 +112,7 @@ int cherche_symbol(char c, char *str);
 void deleteList(t_list** head_ref);
 void free_all(t_command *cmd);
 int    ft_heredoc(t_command *data, int index, char *eof);
+void	heredoc_core(char *line, char *eof, int pipe_heredoc[2], int rtn_value);
 void    multi_heredoc_generator(t_command *data, int index, char *eof, int *pipe_heredoc);
 void    redirect_handler_heredoc(t_command *data, int i, int *pipe_heredoc);
 char	*check_dollar(int *j, char *str, char *new, char **env);

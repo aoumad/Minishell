@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 13:17:15 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/25 19:44:45 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/28 17:50:47 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,21 @@ int	builtin_env(int argc __attribute((unused)), char **argv)
 	int	i;
 
 	i = 0;
+	while (ft_strnstr(g_env[i], "PATH", 4) == NULL)
+	{
+		if (ft_strnstr(g_env[i], "PATH", 4) == NULL && g_env[i + 1] == NULL)
+		{
+			ft_error("minishell", argv[0],
+				": No such file or directory\n");
+			return (0);
+		}
+		i++;
+	}
 	if (g_env == NULL)
 	{
 		ft_error("minishell", "env", "environ not set");
 		return (EXIT_FAILURE);
 	}
-	if (argv[1])
-		add_to_env(&g_env, argv[1]);
 	i = 0;
 	while (g_env[i])
 	{
