@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 23:31:11 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/28 16:55:31 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/29 00:49:05 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ int	export_2(char **argv, char *new, int test, int i)
 		ft_error("minishell", argv[i], "not a valid identifier\n");
 		status = EXIT_FAILURE;
 	}
-	else if (ft_strchr(new, '='))
-		status = put_the_var(new, test);
+	status = put_the_var(new, test);
 	return (status);
 }
 

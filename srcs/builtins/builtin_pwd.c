@@ -6,25 +6,49 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 09:50:51 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/28 10:28:29 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/29 01:36:58 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	builtin_pwd(int argc __attribute((unused)),
-	char **argv __attribute((unused)))
+void	rm_case()
 {
-	char	buf[MAX_BUF];
+	int	i;
+
+	i = 0;
+	while (g_env[i])
+	{
+		if (!ft_strncmp(g_env[i], "PWD", 3))
+			printf("%s\n", g_env[i] + 4);
+		i++;
+	}
+}
+
+void	print_pwd()
+{
+	char	buf[PATH_MAX];
 
 	if (getcwd(buf, sizeof(buf)))
 	{
 		ft_putendl_fd(buf, STDOUT_FILENO);
-		return (0);
 	}
-	else
+}
+
+int	builtin_pwd(int argc __attribute((unused)),
+	char **argv __attribute((unused)))
+{
+	int status;
+	
+	status = 0;
+	if (!getcwd(NULL, 0))
 	{
-		ft_error("minishell", "pwd", strerror(ENOMEM));
-		return (EXIT_FAILURE);
+		status = 1;
+		rm_case();
 	}
+	if (status == 0)
+	{
+		print_pwd();
+	}
+	return (status);
 }

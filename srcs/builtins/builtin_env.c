@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 13:17:15 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/28 17:50:47 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/29 00:43:30 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int	builtin_env(int argc __attribute((unused)), char **argv)
 	i = 0;
 	while (g_env[i])
 	{
-		ft_putendl_fd(g_env[i], STDOUT_FILENO);
+		if (ft_strchr(g_env[i], '='))
+			ft_putendl_fd(g_env[i], STDOUT_FILENO);
 		i++;
 	}
 	return (0);

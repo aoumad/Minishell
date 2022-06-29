@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:01:28 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/28 16:38:04 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/29 01:50:10 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	put_the_var(char *str, int test)
 	int		status;
 	int		i;
 
-	if (str == NULL || ft_strchr(str, '=') == NULL)
+	if (str == NULL)
 		return (ERROR);
 	new_var = ft_strdup(str);
 	if (new_var == NULL)
