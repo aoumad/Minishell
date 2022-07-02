@@ -6,7 +6,7 @@
 /*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:34:15 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/30 07:04:46 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/02 13:02:40 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ char	*get_path(char **envp, t_command *data, int index)
 {
 	char	*path;
 
-	g_status = 0;
+	g_data.g_status = 0;
 	if (data[index].cmd[0][0] == '/')
 	{
 		if (opendir(data[index].cmd[0]) != NULL)
 		{
 			ft_error("minishell", data[index].cmd[0], " is a directory\n");
-			g_status = 126;
+			g_data.g_status = 126;
 		}
 		else if (access(data[index].cmd[0], F_OK) == 0)
 			return (data[index].cmd[0]);
@@ -59,7 +59,7 @@ char	*get_path(char **envp, t_command *data, int index)
 		{
 			ft_error("minishell", data[index].cmd[0],
 				"No such file or directory\n");
-			g_status = 127;
+			g_data.g_status = 127;
 		}
 	}
 	else
@@ -79,5 +79,5 @@ void	ft_command_not_found(char **paths, char *cmd)
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(cmd, STDERR_FILENO);
 	ft_putstr_fd(": command not found\n", STDERR_FILENO);
-	g_status = 127;
+	g_data.g_status = 127;
 }

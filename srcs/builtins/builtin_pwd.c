@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 09:50:51 by aoumad            #+#    #+#             */
-/*   Updated: 2022/07/01 14:47:03 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/07/02 16:16:32 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 int	builtin_pwd(int argc __attribute((unused)),
 	char **argv __attribute((unused)))
 {
-	char	buf[MAX_BUF];
 	int		i;
+	char	buf[MAX_BUF];
 
 	i = 0;
 	if (getcwd(buf, sizeof(buf)))
@@ -26,11 +26,11 @@ int	builtin_pwd(int argc __attribute((unused)),
 	}
 	else if (!getcwd(NULL, 0))
 	{
-		while (g_env[i])
+		while (g_data.g_env[i])
 		{
-			if (!ft_strncmp(g_env[i], "PWD", 3))
+			if (!ft_strncmp(g_data.g_env[i], "PWD", 3))
 			{
-				printf("%s\n", g_env[i] + 4);
+				printf("%s\n", g_data.g_env[i] + 4);
 			}
 			i++;
 		}

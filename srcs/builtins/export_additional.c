@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_additional.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 23:31:11 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/30 22:52:44 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/02 14:10:27 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	export_2(char **argv, char *new, int test, int i)
 	status = EXIT_SUCCESS;
 	if (check_arg(new) == false || error_symbol(new) == false)
 	{
-		ft_error("minishell", argv[i], "not a valid identifier\n");
+		ft_error("minishell", argv[i], "not a valid identifier");
 		status = EXIT_FAILURE;
 	}
 	status = put_the_var(new, test);
@@ -58,33 +58,43 @@ void	exported_vars(void)
 	char	**dup_env;
 	int		i;
 	int		count;
-	
-	count = env_count(g_env) + 1;
-	dup_env = (char **)malloc((env_count(g_env) + 1) * sizeof(char *));
+
+	count = env_count(g_data.g_env) + 1;
+	dup_env = (char **)malloc((env_count(g_data.g_env) + 1) * sizeof(char *));
 	if (dup_env == NULL)
 		return ;
-	if (g_env == NULL)
+	if (g_data.g_env == NULL)
 		return ;
-	ft_memcpy(dup_env, g_env, (env_count(g_env) + 1) * sizeof(char *));
+	ft_memcpy(dup_env, g_data.g_env,
+		(env_count(g_data.g_env) + 1) * sizeof(char *));
+	dup_env[(env_count(g_data.g_env) + 1) * sizeof(char *) - 1] = 0;
 	i = 0;
 	dup_env = sort_env(dup_env);
 	i = 0;
 	while (dup_env[i])
 	{
-		g_env[i] = ft_strdup(dup_env[i]);
+		g_data.g_env[i] = dup_env[i];
 		i++;
 	}
+	g_data.g_env[i] = NULL;
+	exported_vars_additional(dup_env);
+}
+
+void	exported_vars_additional(char **dup_env)
+{
+	int	i;
+
 	i = 0;
-	while (g_env[i])
+	while (g_data.g_env[i])
 	{
 		ft_putstr_fd("declare -x ", 1);
-		if (ft_strchr(g_env[i], '=') == NULL)
+		if (ft_strchr(g_data.g_env[i], '=') == NULL)
 		{
-			ft_putendl_fd(g_env[i], 1);
+			ft_putendl_fd(g_data.g_env[i], 1);
 			i++;
 			continue ;
 		}
-		dup_env[i] = join_to_env(g_env[i]);
+		dup_env[i] = join_to_env(g_data.g_env[i]);
 		ft_putstr_fd(dup_env[i], 1);
 		ft_putendl_fd("\"", 1);
 		i++;
@@ -100,7 +110,7 @@ void	exported_vars(void)
 
 char	*join_to_env(char	*env)
 {
-	int	i;
+	int		i;
 	char	*tmp;
 	char	*str;
 	int		count;
@@ -114,7 +124,7 @@ char	*join_to_env(char	*env)
 		if (env[i] == (char )c)
 		{
 			i++;
-			break;
+			break ;
 		}
 		i++;
 	}

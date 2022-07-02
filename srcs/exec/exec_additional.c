@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_additional.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
+/*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 17:02:38 by aoumad            #+#    #+#             */
-/*   Updated: 2022/07/02 12:25:14 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/07/02 13:05:19 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	execute_core(t_command *data, int i, char **envp)
 		redirect_handler(data, i);
 	if (data[i].is_builtin_in  && data[i].redirect == NULL)
 	{
-		g_status = builtin_root(data[i++].cmd);
+		g_data.g_status = builtin_root(data[i++].cmd);
 		ft_reset_io(fd);
 		return (99); // mochkila dyal pid f wait mne b3de
 	}
@@ -61,9 +61,9 @@ void	execute_child(t_command *data, int i, char **envp)
 	{
 		rtn_execve = execve(path, data[i].cmd, envp);
 		if (rtn_execve == -1)
-			g_status = exit_status(data, i);
+			g_data.g_status = exit_status(data, i);
 	}
-	exit(g_status);
+	exit(g_data.g_status);
 }
 
 int	open_dir_handler(t_command *data, int i)
@@ -75,7 +75,7 @@ int	open_dir_handler(t_command *data, int i)
 	{
 		check = 1;
 		ft_error("minishell", data[i].cmd[0], " is a directory");
-		g_status = 126;
+		g_data.g_status = 126;
 	}
 	return (check);
 }

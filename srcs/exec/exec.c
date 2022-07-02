@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
+/*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 11:14:44 by aoumad            #+#    #+#             */
-/*   Updated: 2022/07/02 11:53:42 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/07/02 13:03:30 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,21 +79,21 @@ void	execute_root(t_command *data, char **envp)
 void	status_generator(t_command *data, int i, int pid)
 {
 	if (i == data[0].num_cmds)
-	waitpid(pid, &g_status, 0);
+	waitpid(pid, &g_data.g_status, 0);
 	while (1)
 	{
 		if (waitpid(-1, 0, 0) == -1)
 			break;
 	}
-	if (g_status == 3)
+	if (g_data.g_status == 3)
 	{
 		printf("Quit: 3\n");
-		g_status = 131;
+		g_data.g_status = 131;
 	}
-	else if(g_status == 2)
-		g_status = 130;
-	else if (g_status == 126 || g_status == 127)
+	else if(g_data.g_status == 2)
+		g_data.g_status = 130;
+	else if (g_data.g_status == 126 || g_data.g_status == 127)
 		return ;
 	else
-		g_status = WEXITSTATUS(g_status);
+		g_data.g_status = WEXITSTATUS(g_data.g_status);
 }

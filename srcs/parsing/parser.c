@@ -6,7 +6,7 @@
 /*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 14:52:59 by snouae            #+#    #+#             */
-/*   Updated: 2022/07/01 11:34:45 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/02 13:37:02 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,14 @@ int	fill_arg(t_list **tmp, t_command *cmd, int *j, char **join)
 	}
 	else if ((*tmp)->type == double_quo)
 	{
-		(*tmp)->str = remove_double_quote((*tmp)->str, g_env);
+		(*tmp)->str = remove_double_quote((*tmp)->str, g_data.g_env);
 		*join = ft_strjoin_n(*join, (*tmp)->str);
 	}
 	else if ((*tmp)->type == dollar)
-		ft_handler_dollar(tmp, g_env, join);
+		ft_handler_dollar(tmp, g_data.g_env, join);
 	else if ((*tmp)->type == redirect_in || (*tmp)->type == redirect_out)
-		ft_lstadd_back1(&cmd->redirect, fill_riderect((*tmp)->str, tmp, g_env));
+		ft_lstadd_back1(&cmd->redirect,
+			fill_riderect((*tmp)->str, tmp, g_data.g_env));
 	else if ((cherche_symbol((*tmp)->str[0], " \t\n\v\f\r")
 			|| (*tmp)->type == char_null) && *join)
 	{
@@ -95,7 +96,7 @@ void	fill_cmd(t_command *cmd, char **env, int nbr_args, t_list *tmp)
 	cmd->cmd[j] = 0;
 }
 
-void	affich(int nbr_cmds, t_command *cmd)
+/*void	affich(int nbr_cmds, t_command *cmd)
 {
 	int				i;
 	int				j;
@@ -121,7 +122,7 @@ void	affich(int nbr_cmds, t_command *cmd)
 		}
 		i++;
 	}
-}
+}*/
 
 t_command	*ft_parser(t_list **head, char *line, char **env)
 {
@@ -144,6 +145,5 @@ t_command	*ft_parser(t_list **head, char *line, char **env)
 		if (nbr_args)
 			fill_cmd(cmd + i, env, nbr_args, tmp);
 	}
-	//affich(count_commads(head), cmd);
 	return (cmd);
 }

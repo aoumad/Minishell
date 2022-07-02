@@ -1,39 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_unset.c                                    :+:      :+:    :+:   */
+/*   exit_additional.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/26 18:38:49 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/25 19:11:14 by aoumad           ###   ########.fr       */
+/*   Created: 2022/07/02 16:11:26 by aoumad            #+#    #+#             */
+/*   Updated: 2022/07/02 16:11:42 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	builtin_unset(int argc, char **argv)
+int	exit_core(int argc, char **argv, int rtn_numeric)
 {
 	int	i;
-	int	j;
-	int	status;
 
-	status = EXIT_SUCCESS;
 	i = 1;
-	while (--argc)
+	if (argc == 1)
 	{
-		j = 0;
-		while (argv[i][j] && check_var_is_char(argv[i][j]))
-			j++;
-		if (argv[i][j] != '\0' || argv[i][0] == '\0')
-		{
-			ft_error("minishell", "unset", " not a valid identifier");
-			status = EXIT_FAILURE;
-			break ;
-		}
-		else
-			unset_the_var(argv[i]);
-		i++;
+		ft_putstr_fd("exit\n", STDERR_FILENO);
+		exit (0);
 	}
-	return (status);
+	if (argv[1] != NULL)
+		check_numeric(argv[1], &rtn_numeric);
+	while (argv[i])
+		i++;
+	return (i);
+}
+
+int	atoi_sup(char *str, long *neg)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	if ((str[i] == '-' || str[i] == '+'))
+		if (str[i++] == '-')
+			*neg *= -1;
+	while (str[i] && (str[i] == '0'))
+		i++;
+	return (i);
 }

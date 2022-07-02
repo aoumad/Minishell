@@ -6,7 +6,7 @@
 /*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 12:39:00 by snouae            #+#    #+#             */
-/*   Updated: 2022/06/30 14:16:36 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/02 13:31:17 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_lstadd_back1(t_redirection **lst, t_redirection *new)
 	list->next = new;
 }
 
-void check_not_herdoc(char **new, char **env, t_list **tmp, int *test)
+void	check_not_herdoc(char **new, char **env, t_list **tmp, int *test)
 {
 	if (*test == 11)
 		*new = ft_strjoin_n(*new, (*tmp)->str);

@@ -6,7 +6,7 @@
 /*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 11:54:41 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/30 22:52:56 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/02 12:43:51 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ char	*skip_symbol(char *argv)
 	int		j;
 	char	*str;
 
-	str = malloc(ft_strlen(argv));
+	str = (char *)malloc(ft_strlen(argv));
+	if (!str)
+		ft_error_malloc("minishell", NULL, strerror(ENOMEM));
 	i = 0;
 	j = 0;
 	while (argv[i] != '\0')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
+/*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 07:41:08 by aoumad            #+#    #+#             */
-/*   Updated: 2022/07/02 12:30:21 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/07/01 23:07:06 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	remove_from_env(char *str)
 	int		i;
 	int		j;
 
-	new_env = malloc(env_count(g_env) * sizeof(char *));
+	new_env = malloc(env_count(g_data.g_env) * sizeof(char *));
 	if (new_env == NULL)
 	{
 		ft_error("minishell", NULL, strerror(ENOMEM));
@@ -74,16 +74,15 @@ int	remove_from_env(char *str)
 	}
 	i = 0;
 	j = 0;
-	while (g_env[i])
+	while (g_data.g_env[i])
 	{
-		if (!ft_strcmp(g_env[i], str))
+		if (!ft_strcmp(g_data.g_env[i], str))
 			i++;
-		new_env[j++] = g_env[i++];
+		new_env[j++] = g_data.g_env[i++];
 	}
 	new_env[j] = NULL;
-	free(g_env);
-	// free(str);
-	g_env = new_env;
+	free(g_data.g_env);                  
+	g_data.g_env = new_env;
 	return (0);
 }
 

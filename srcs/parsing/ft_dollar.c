@@ -6,7 +6,7 @@
 /*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 20:39:11 by snouae            #+#    #+#             */
-/*   Updated: 2022/06/30 14:05:16 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/01 19:47:21 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*check_dollar(int *j, char *str, char *new, char **env)
 	(*j)++;
 	if (str[*j] == '?')
 	{
-		ptr_status = ft_itoa(g_status);
+		ptr_status = ft_itoa(g_data.g_status);
 		new = ft_strjoin_n(new, ptr_status);
 		free(ptr_status);
 	}
@@ -64,7 +64,7 @@ void	ft_handler_dollar(t_list **tmp, char **env, char **join)
 		*join = ft_strjoin_n(*join, (*tmp)->str);
 	else if ((*tmp)->str[1] == '?')
 	{
-		ptr_status = ft_itoa(g_status);
+		ptr_status = ft_itoa(g_data.g_status);
 		*join = ft_strjoin_n(*join, ptr_status);
 		free(ptr_status);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirect.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
+/*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 10:44:17 by aoumad            #+#    #+#             */
-/*   Updated: 2022/07/01 14:26:08 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/07/02 13:43:54 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,20 @@ void	redirect_handler(t_command *data, int i)
 		dup2(head->fd, STDIN_FILENO);
 		close(head->fd);
 	}
-	while (head->next)
-		head = head->next;
+	while ((head->type == OUT && head->next) || (head->type == APPEND && head->next))
+	{
+		if (head->type == OUT || head->type == APPEND)
+			head = head->next;
+		else
+			break;
+	}
 	if (head->type == OUT || head->type == APPEND)
 	{
 		dup2(head->fd, STDOUT_FILENO);
 		close(head->fd);
 	}
+	while (head->next)
+		head = head->next;
 	if (head->fd == HEREDOC)
 	{
 		dup2(head->fd, STDOUT_FILENO);

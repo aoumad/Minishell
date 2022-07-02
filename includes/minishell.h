@@ -39,12 +39,14 @@ struct s_builtins
 	int		(*func)(int argc, char **argv);
 };
 
-/*
-my global variables
-*/
-char	                **g_env;
-int                     st_err;
-int						g_status;
+typedef struct s_data
+{
+	char	**g_env;
+	int		st_err;
+	int		g_status;
+}	t_data;
+
+t_data g_data;
 
 enum s_fileType
 {
@@ -73,6 +75,7 @@ typedef struct s_redirection
     int redirect_fd[2];
     struct s_redirection* next;
 } t_redirection;
+
 typedef struct s_command
 {
 	char	**cmd;
@@ -140,8 +143,10 @@ int     builtin_cd(int argc, char **argv);
 int     builtin_echo(int argc __attribute((unused)), char **argv);
 int     builtin_env(int argc __attribute((unused)),
 	char **argv __attribute((unused)));
+int	path_no_found(char **argv);
 int     builtin_exit(int argc, char **argv);
 void	builtin_exit_2(char **argv, int rtn_numeric);
+int	exit_core(int argc, char **argv, int rtn_numeric);
 
 //===== export ==========//
 bool	error_symbol(char *argv);
@@ -153,6 +158,7 @@ void    exported_vars(void);
 char	**sort_env(char **env);
 bool	check_arg(char *argv);
 char	*join_to_env(char	*env);
+void	exported_vars_additional(char **dup_env);
 
 int     builtin_check(char  *str);
 int     builtin_pwd(int argc __attribute((unused)), 
@@ -174,6 +180,8 @@ int 		unset_the_var(char  *name);
 int 		put_the_var(char *str, int test);
 int 		set_the_env(char *name, char *value);
 long long	ft_atoi_exit(const char *str, int i, int *status_error);
+int			atoi_sup(char *str, long *neg);
+void	check_numeric(char *arg, int *rtn_numeric);
 
 //=======================================
 //======= Execute utils ===== //
@@ -185,12 +193,11 @@ void    redirect_handler(t_command *data, int index);
 //====== execute function =====//
 void execute_root(t_command *data, char **envp);
 int	execute_core(t_command *data, int i, char **envp);
-void	execute_child(t_command *data, int index, char **envp);
-int		open_dir_handler(t_command *data, int i);
-int		exit_status(t_command *data, int i);
-void	status_generator(t_command *data, int i, int pid);
+int	open_dir_handler(t_command *data, int i);
+void	execute_child(t_command *data, int i, char **envp);
+int	exit_status(t_command *data, int i);
 void	dup_io(t_command *data, int i);
-
+void	status_generator(t_command *data, int i, int pid);
 //========================================
 // ===== builtin_utils ==== //
 int     replace_str_env(char ***env, char *old_str, char *new_str, int test);

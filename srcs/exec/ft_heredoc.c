@@ -6,7 +6,7 @@
 /*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 15:24:31 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/30 15:04:47 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/02 13:04:38 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*handl_herdoc(char *str)
 	{
 		if (str[j] == dollar
 			&& !cherche_symbol(str[j + 1], "\t!$%'() *\"+,-./:;<=>@[]^`{|}~"))
-			new = check_dollar(&j, str, new, g_env);
+			new = check_dollar(&j, str, new, g_data.g_env);
 		else
 		{
 			tmp[0] = str[j];
@@ -105,7 +105,7 @@ int	ft_heredoc(t_command *data, int index, char *eof)
 	waitpid(-1, &status, 0);
 	if (status == 2)
 	{
-		g_status = 1;
+		g_data.g_status = 1;
 		return (-1);
 	}
 	return (pipe_heredoc[0]);

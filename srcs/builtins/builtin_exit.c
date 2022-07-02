@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:37:52 by aoumad            #+#    #+#             */
-/*   Updated: 2022/07/01 14:45:57 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/07/02 16:13:42 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,19 @@ static	long long	ft_atoi_exit11(const char *str, int i, int *status_error)
 	neg = 1;
 	sum = 0;
 	j = 0;
-	if (!str)
-		return (0);
-	if ((str[i] == '-' || str[i] == '+'))
-		if (str[i++] == '-')
-			neg *= -1;
-	while (str[i] && (str[i] == '0'))
-		i++;
+	i = atoi_sup(str, &neg);
 	while (str[i] >= '0' && str[i] <= '9' && ++j)
 	{
 		sum = (sum * 10) + (str[i] - 48);
-		if (sum > INT_MAX || sum < INT_MIN)
+		if (((i == 19 && neg == 1) && (str[i] > '7' && str[i] <= '9'))
+			|| ((i == 20 && neg == -1) && (str[i] == '9')))
 			*status_error = 1;
 		i++;
 	}
 	while (str[i++])
 		j++;
+	if ((j > 19 && neg == 1) || (j > 20 && neg == -1))
+		*status_error = 1;
 	return (sum * neg);
 }
 
@@ -45,11 +42,11 @@ static	void	exit_numeric_error(char *arg)
 	ft_putstr_fd("minishell: exit: ", 2);
 	ft_putstr_fd(arg, 2);
 	ft_putstr_fd(": numeric argument required\n", 2);
-	g_status = 255;
-	exit (g_status);
+	g_data.g_status = 255;
+	exit (g_data.g_status);
 }
 
-static	void	check_numeric(char *arg, int *rtn_numeric)
+void	check_numeric(char *arg, int *rtn_numeric)
 {
 	int	i;
 
@@ -79,33 +76,24 @@ int	builtin_exit(int argc, char **argv)
 	int			status_error;
 	int			rtn_numeric;
 
-	g_status = 0;
+	g_data.g_status = 0;
 	rtn_numeric = 0;
 	status_error = 0;
-	i = 1;
-	if (argc == 1)
-	{
-		ft_putstr_fd("exit\n", STDERR_FILENO);
-		exit (0);
-	}
-	if (argv[1] != NULL)
-		check_numeric(argv[1], &rtn_numeric);
-	while (argv[i])
-		i++;
+	i = exit_core(argc, argv, rtn_numeric);
 	if (i > 2)
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		g_status = 1;
+		g_data.g_status = 1;
 	}
 	else
 	{
 		rtn_atoi = ft_atoi_exit11(argv[1], 0, &status_error);
 		if (status_error == 1)
 			exit_numeric_error(argv[1]);
-		g_status = rtn_atoi % 256;
+		g_data.g_status = rtn_atoi % 256;
 	}
 	if (status_error != 1 || rtn_numeric == 1)
 		ft_putstr_fd("exit\n", STDERR_FILENO);
-	exit(g_status);
+	exit(g_data.g_status);
 	return (0);
 }

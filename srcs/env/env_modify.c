@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_modify.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
+/*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:01:28 by aoumad            #+#    #+#             */
-/*   Updated: 2022/07/02 12:33:26 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/07/02 13:50:42 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	unset_the_var(char *name)
 {
 	char	*env_var;
-	
+
 	env_var = search_env(name);
 	if (env_var == NULL)
 		return (ERROR);
@@ -36,10 +36,10 @@ int	put_the_var(char *str, int test)
 	if (new_var == NULL)
 		return (ft_error("minishell", NULL, strerror(ENOMEM)));
 	old_var = search_env(str);
-	status = replace_str_env(&g_env, old_var, new_var, test);
+	status = replace_str_env(&g_data.g_env, old_var, new_var, test);
 	if (status == ERROR)
 	{
-		status = add_to_env(&g_env, new_var);
+		status = add_to_env(&g_data.g_env, new_var);
 		if (status == ERROR)
 			return (ft_error("minishell", NULL, strerror(ENOMEM)));
 	}

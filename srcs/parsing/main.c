@@ -6,7 +6,7 @@
 /*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:18:29 by snouae            #+#    #+#             */
-/*   Updated: 2022/06/30 14:17:03 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/02 13:38:25 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	handler(int sig)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		g_status = 1;
+		g_data.g_status = 1;
 	}
 }
 
@@ -82,10 +82,10 @@ int	main(int ac, char **av, char **envp)
 	cmd = NULL;
 	(void)ac;
 	(void)av;
-	g_env = copy_env(envp);
+	g_data.g_env = copy_env(envp);
 	while (1)
 	{
-		st_err = 0;
+		g_data.st_err = 0;
 		rl_catch_signals = 0;
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, handler);
@@ -105,25 +105,26 @@ int	main(int ac, char **av, char **envp)
 			if (!ft_check(&head, buffer))
 			{
 				printf("minishell: syntax error\n");
+				g_data.g_status = 258;
 				free(buffer);
 				deletelist(&head);
 				continue ;
 			}
-			cmd = ft_parser(&head, buffer, g_env);
+			cmd = ft_parser(&head, buffer, g_data.g_env);
 			open_files(cmd, cmd[0].num_cmds);
-			if (st_err)
+			if (g_data.st_err)
 			{
 				deletelist(&head);
 				free_all(cmd);
 				free(buffer);
 				continue ;
 			}
-			execute_root(cmd, g_env);
+			execute_root(cmd, g_data.g_env);
 		}
 		deletelist(&head);
 		free_all(cmd);
 		free(buffer);
 	}
-	ft_free_env(&g_env);
+	//ft_free_env(&g_data->g_env);
 	return (0);
 }

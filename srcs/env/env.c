@@ -6,7 +6,7 @@
 /*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 10:50:41 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/30 17:37:06 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/01 19:45:12 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,17 @@ char	*search_env(char *name)
 	int	len_name;
 	int	i;
 
-	if (name == NULL || g_env == NULL)
+	if (name == NULL || g_data.g_env == NULL)
 		return (NULL);
 	if (ft_strchr(name, '=') != NULL)
 		len_name = ft_strchr(name, '=') - name;
 	else
 		len_name = ft_strlen(name);
 	i = 0;
-	while (g_env[i])
+	while (g_data.g_env[i])
 	{
-		if (!ft_strncmp(name, g_env[i], len_name))
-			return (g_env[i]);
+		if (!ft_strncmp(name, g_data.g_env[i], len_name))
+			return (g_data.g_env[i]);
 		i++;
 	}
 	return (NULL);

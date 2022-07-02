@@ -6,7 +6,7 @@
 /*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 07:39:12 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/29 16:31:01 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/02 13:30:29 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,6 @@ void	ft_free_env(char ***env)
 		free((*env)[i]);
 		i++;
 	}
-	//free(*env);
-	//*env = NULL;
+	free(*env);
+	*env = NULL;
 }
