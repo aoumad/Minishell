@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 13:25:11 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/29 01:42:12 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/07/01 14:37:05 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	builtin_cd(int argc, char **argv)
 	dir = get_the_print_working_dir(argc, argv);
 	if (dir == NULL)
 		return (EXIT_FAILURE);
-	
 	if (chdir(dir) == -1)
 	{
 		printf("minishell: cd: %s: No such file or directory\n", dir);

@@ -6,13 +6,13 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 07:41:08 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/29 01:57:28 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/07/02 12:30:21 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static	char	*ft_strchr_export(const char *s, int c)
+char	*ft_strchr_export(const char *s, int c)
 {
 	while (*s)
 	{
@@ -82,6 +82,7 @@ int	remove_from_env(char *str)
 	}
 	new_env[j] = NULL;
 	free(g_env);
+	// free(str);
 	g_env = new_env;
 	return (0);
 }
@@ -97,13 +98,27 @@ int	replace_str_env(char ***env, char *old_str, char *new_str, int test)
 		i++;
 	if (ft_strcmp((*env)[i], old_str))
 		return (ERROR);
-	free(old_str);
 	if (test == 1)
 	{
 		new_str = ft_strchr_export(new_str, '=');
 		(*env)[i] = ft_strjoin((*env)[i], new_str);
 	}
+	else if (check_replace(old_str, new_str) == true)
+		(*env)[i] = ft_strdup(new_str);
 	else
-		(*env)[i] = new_str;
+		return (0);
+	free(old_str);
+	//free (new_str);
 	return (0);
+}
+
+bool	check_replace(char *old_str, char *new_str)
+{
+	if (ft_strchr(old_str, '=') && ft_strchr(new_str, '='))
+		return (true);
+	else if (!ft_strchr(old_str, '=') && ft_strchr(new_str, '='))
+		return (true);
+	else if (ft_strchr(old_str, '=') && !ft_strchr(new_str, '='))
+		return (false);
+	return (true);
 }

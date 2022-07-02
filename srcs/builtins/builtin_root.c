@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 15:15:39 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/28 11:54:27 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/07/01 14:49:07 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,16 @@ int	builtin_check(char *str)
 	int	cmd_len;
 	int	is_builtin;
 	int	i;
+	int	test;
 
 	i = 0;
+	test = 0;
 	is_builtin = 0;
 	if (!str)
+	{
 		str = ft_strdup("");
+		test = 1;
+	}
 	if (!ft_strcmp(str, "exit"))
 		is_builtin = -1;
 	while (g_builtins[i].name != NULL)
@@ -42,6 +47,8 @@ int	builtin_check(char *str)
 			is_builtin = i + 1;
 		i++;
 	}
+	if (test)
+		free(str);
 	return (is_builtin);
 }
 

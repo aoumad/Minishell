@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
+/*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 15:24:31 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/28 11:42:21 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/06/30 15:04:47 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*handl_herdoc(char *str)
 	while (++j < leng)
 	{
 		if (str[j] == dollar
-			&& !cherche_symbol(str[j + 1], "\t!$%'() *\"+,-./:;<=>?@[]^`{|}~"))
+			&& !cherche_symbol(str[j + 1], "\t!$%'() *\"+,-./:;<=>@[]^`{|}~"))
 			new = check_dollar(&j, str, new, g_env);
 		else
 		{
@@ -55,16 +55,19 @@ int	line_empty_no_n(char *str)
 
 void	heredoc_core(char *line, char *eof, int pipe_heredoc[2], int rtn_value)
 {
+	rl_catch_signals = 1;
 	signal(SIGINT, SIG_DFL);
 	rtn_value = pipe_heredoc[0];
-	line = ft_strdup("");
-	while (ft_strcmp(eof, line))
+	while (1)
 	{
 		line = readline("> ");
 		if (line == NULL)
 			break ;
 		if (!ft_strcmp(eof, line))
+		{
+			free(line);
 			break ;
+		}
 		if (!line_empty_no_n(line))
 		{
 			free(line);
@@ -102,7 +105,7 @@ int	ft_heredoc(t_command *data, int index, char *eof)
 	waitpid(-1, &status, 0);
 	if (status == 2)
 	{
-		g_status = 130;
+		g_status = 1;
 		return (-1);
 	}
 	return (pipe_heredoc[0]);

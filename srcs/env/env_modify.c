@@ -6,7 +6,7 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:01:28 by aoumad            #+#    #+#             */
-/*   Updated: 2022/06/29 01:50:10 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/07/02 12:33:26 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	unset_the_var(char *name)
 {
 	char	*env_var;
-
+	
 	env_var = search_env(name);
 	if (env_var == NULL)
 		return (ERROR);
@@ -43,6 +43,7 @@ int	put_the_var(char *str, int test)
 		if (status == ERROR)
 			return (ft_error("minishell", NULL, strerror(ENOMEM)));
 	}
+	free(str);
 	return (0);
 }
 
@@ -56,10 +57,11 @@ int	set_the_env(char *name, char *value)
 	var = ft_strjoin(name, "=");
 	if (var == NULL)
 		return (ft_error("minishell", NULL, strerror(ENOMEM)));
+	free (var);
 	var = ft_strjoin(var, value);
 	if (var == NULL)
 		return (ft_error("minishell", NULL, strerror(ENOMEM)));
-	status = put_the_var(var, 0);
+	status = put_the_var(ft_strdup(var), 0);
 	free(var);
 	return (status);
 }
