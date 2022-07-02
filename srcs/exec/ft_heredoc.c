@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 15:24:31 by aoumad            #+#    #+#             */
-/*   Updated: 2022/07/02 13:04:38 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/02 17:26:42 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,11 @@ int	line_empty_no_n(char *str)
 
 	i = -1;
 	while (str[++i])
-		if (str[i] == '\t' && str[i] == '\v' && str[i] == '\f'
-			&& str[i] == ' ' && str[i] == '\r' )
+	{
+		if (str[i] == '\t' || str[i] == '\v' || str[i] == '\f'
+			|| str[i] == ' ' || str[i] == '\r' || str[i] == '\n')
 			return (0);
+	}
 	return (1);
 }
 
@@ -68,21 +70,22 @@ void	heredoc_core(char *line, char *eof, int pipe_heredoc[2], int rtn_value)
 			free(line);
 			break ;
 		}
-		if (!line_empty_no_n(line))
-		{
-			free(line);
-			write(pipe_heredoc[1], "\n", 1);
-			continue ;
-		}
-		else if (ft_strlen(line))
-		{
-			line = handl_herdoc(line);
-			write(pipe_heredoc[1], line, ft_strlen(line));
-			write(pipe_heredoc[1], "\n", 1);
-		}
-		free(line);
+		heredoc_core_2(line, pipe_heredoc);
+		// free(line);
 	}
 	exit (0);
+}
+
+void	heredoc_core_2(char	*line, int pipe_heredoc[2])
+{
+	if (ft_strlen(line))
+	{
+		printf("line: %s\n", line);
+		line = handl_herdoc(line);
+		write(pipe_heredoc[1], line, ft_strlen(line));
+	}
+	write(pipe_heredoc[1], "\n", 1);
+	free(line);
 }
 
 int	ft_heredoc(t_command *data, int index, char *eof)

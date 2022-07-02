@@ -115,6 +115,8 @@ void deletelist(t_list** head_ref);
 void free_all(t_command *cmd);
 void	deleteredir(t_redirection **head_ref);
 int    ft_heredoc(t_command *data, int index, char *eof);
+void	heredoc_core_2(char	*line, int pipe_heredoc[2]);
+void	heredoc_core(char *line, char *eof, int pipe_heredoc[2], int rtn_value);
 void    multi_heredoc_generator(t_command *data, int index, char *eof, int *pipe_heredoc);
 void    redirect_handler_heredoc(t_command *data, int i, int *pipe_heredoc);
 char	*check_dollar(int *j, char *str, char *new, char **env);
@@ -189,12 +191,14 @@ char    *get_path(char **envp,  t_command *data, int index);
 void    ft_command_not_found(char **paths, char *cmd);
 int     open_file(t_redirection *redirect);
 void    redirect_handler(t_command *data, int index);
-
+void	redirect_IN(t_redirection *head);
+void	redirect_out_append(t_redirection *head);
 //====== execute function =====//
 void execute_root(t_command *data, char **envp);
 int	execute_core(t_command *data, int i, char **envp);
 int	open_dir_handler(t_command *data, int i);
 void	execute_child(t_command *data, int i, char **envp);
+void	add_to_child(t_command *data, int i);
 int	exit_status(t_command *data, int i);
 void	dup_io(t_command *data, int i);
 void	status_generator(t_command *data, int i, int pid);
@@ -207,7 +211,6 @@ int     remove_from_env(char *str);
 void	ft_free_env(char ***env);
 char	*ft_strchr_export(const char *s, int c);
 bool	check_replace(char *old_str, char *new_str);
-
 
 //=========================================
 // ======== libft ============ //

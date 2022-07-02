@@ -6,13 +6,13 @@
 /*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:37:52 by aoumad            #+#    #+#             */
-/*   Updated: 2022/07/02 16:13:42 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/07/02 16:51:51 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static	long long	ft_atoi_exit11(const char *str, int i, int *status_error)
+static	long long	ft_atoi_exit11(char *str, int i, int *status_error)
 {
 	int			j;
 	long		neg;

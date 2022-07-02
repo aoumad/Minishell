@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 11:14:44 by aoumad            #+#    #+#             */
-/*   Updated: 2022/07/02 13:03:30 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/02 16:29:09 by aoumad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ void	execute_root(t_command *data, char **envp)
 			pipe(data[i].next);
 		if (data[i].exec == 0)
 			pid = execute_core(data, i, envp);
-	  	else
-	   {
-		   if (data[i].prev)
-		   		close(data[i].prev[1]);
+		else
+		{
+			if (data[i].prev)
+				close(data[i].prev[1]);
 			if (data[i].next)
 				close(data[i].next[1]);
-	   }
+		}
 		i++;
 	}
 	status_generator(data, i, pid);
@@ -79,18 +79,18 @@ void	execute_root(t_command *data, char **envp)
 void	status_generator(t_command *data, int i, int pid)
 {
 	if (i == data[0].num_cmds)
-	waitpid(pid, &g_data.g_status, 0);
+		waitpid(pid, &g_data.g_status, 0);
 	while (1)
 	{
 		if (waitpid(-1, 0, 0) == -1)
-			break;
+			break ;
 	}
 	if (g_data.g_status == 3)
 	{
 		printf("Quit: 3\n");
 		g_data.g_status = 131;
 	}
-	else if(g_data.g_status == 2)
+	else if (g_data.g_status == 2)
 		g_data.g_status = 130;
 	else if (g_data.g_status == 126 || g_data.g_status == 127)
 		return ;
