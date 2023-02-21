@@ -6,7 +6,7 @@
 /*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 11:12:15 by snouae            #+#    #+#             */
-/*   Updated: 2022/06/29 01:46:29 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/02 14:42:45 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ char	*ft_itoa(int nb)
 	int		i;
 
 	n = nb;
+	if (!nb)
+		return (ft_strdup("0"));
 	i = len(n);
 	str = (char *)malloc(sizeof(char) * (i + 1));
 	if (!str)

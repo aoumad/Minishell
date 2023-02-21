@@ -6,7 +6,7 @@
 /*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 10:50:41 by aoumad            #+#    #+#             */
-/*   Updated: 2022/07/01 19:45:12 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/03 01:39:47 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,27 @@ char	*search_env(char *name)
 bool	check_var_is_char(char c)
 {
 	return (ft_isalnum(c) || c == '_');
+}
+
+char	*ft_strchr_export(const char *s, int c)
+{
+	while (*s)
+	{
+		if (*s == (char )c)
+			return ((char *)s + 1);
+		s++;
+	}
+	if ((char )c == 0)
+		return ((char *)s + 1);
+	return (NULL);
+}
+
+int	env_count(char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+		i++;
+	return (i);
 }

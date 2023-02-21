@@ -6,7 +6,7 @@
 /*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 10:44:18 by snouae            #+#    #+#             */
-/*   Updated: 2022/07/02 13:34:28 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/03 14:59:40 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	check_error_files(t_redirection *head, t_command **cmd)
 	return (0);
 }
 
-void	create_files(t_redirection **head, t_command *cmd, int i)
+void	create_files(t_redirection **head)
 {
 	if ((*head)->type == IN)
 		(*head)->fd = open((*head)->file, O_RDONLY);
@@ -54,8 +54,8 @@ void	open_all_heredoc(t_command *cmd, int leng)
 	int				i;
 	t_redirection	*head;
 
-	i = 0;
-	while (i < leng)
+	i = -1;
+	while (++i < leng)
 	{
 		if (cmd[i].redirect)
 		{
@@ -63,13 +63,13 @@ void	open_all_heredoc(t_command *cmd, int leng)
 			while (head != NULL)
 			{
 				if (head->type == HEREDOC)
-					head->fd = ft_heredoc(cmd, i, head->file);
-				if (check_error_files(head, &cmd))
-					break ;
+				{
+					head->fd = ft_heredoc(head->file);
+					check_error_files(head, &cmd);
+				}
 				head = head->next;
 			}
 		}
-		i++;
 	}
 }
 
@@ -87,7 +87,7 @@ void	open_files(t_command *cmd, int leng)
 			head = cmd[i].redirect;
 			while (head != NULL)
 			{
-				create_files(&head, cmd, i);
+				create_files(&head);
 				if (check_error_files(head, &cmd))
 					break ;
 				head = head->next;

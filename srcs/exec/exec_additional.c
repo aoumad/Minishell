@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_additional.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
+/*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 17:02:38 by aoumad            #+#    #+#             */
-/*   Updated: 2022/07/02 16:39:47 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/07/03 00:59:09 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ int	execute_core(t_command *data, int i, char **envp)
 	{
 		g_data.g_status = builtin_root(data[i++].cmd);
 		ft_reset_io(fd);
-		return (99); // mochkila dyal pid f wait mne b3de
+		return (99);
 	}
 	pid = fork();
+	if (pid < 0)
+		ft_error_malloc("minishell", NULL, "Fork Failed");
 	signal(SIGINT, SIG_IGN);
 	if (pid == 0)
 		execute_child(data, i, envp);

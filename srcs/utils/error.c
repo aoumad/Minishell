@@ -6,7 +6,7 @@
 /*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 07:39:12 by aoumad            #+#    #+#             */
-/*   Updated: 2022/07/02 13:30:29 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/02 16:36:51 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,22 @@ int	ft_error_malloc(char *shell_name, char *s1, char *message)
 	exit (1);
 }
 
-void	ft_free_env(char ***env)
+void	ft_free_env(void)
 {
 	int	i;
 
 	i = 0;
-	while ((*env)[i] != NULL)
+	while (g_data.g_env[i] != NULL)
 	{
-		free((*env)[i]);
+		free(g_data.g_env[i]);
 		i++;
 	}
-	free(*env);
-	*env = NULL;
+	free(g_data.g_env);
+}
+
+void	free_cmd(t_list **head, t_command *cmd, char *buffer)
+{
+	deletelist(head);
+	free_all(cmd);
+	free(buffer);
 }

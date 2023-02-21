@@ -6,7 +6,7 @@
 /*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:01:28 by aoumad            #+#    #+#             */
-/*   Updated: 2022/07/02 13:50:42 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/06 21:01:08 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,11 @@ int	unset_the_var(char *name)
 	return (0);
 }
 
-int	put_the_var(char *str, int test)
+int	put_the_var(char *str)
 {
 	char	*new_var;
 	char	*old_var;
 	int		status;
-	int		i;
 
 	if (str == NULL)
 		return (ERROR);
@@ -36,10 +35,10 @@ int	put_the_var(char *str, int test)
 	if (new_var == NULL)
 		return (ft_error("minishell", NULL, strerror(ENOMEM)));
 	old_var = search_env(str);
-	status = replace_str_env(&g_data.g_env, old_var, new_var, test);
+	status = replace_str_env(old_var, new_var);
 	if (status == ERROR)
 	{
-		status = add_to_env(&g_data.g_env, new_var);
+		status = add_to_env(new_var);
 		if (status == ERROR)
 			return (ft_error("minishell", NULL, strerror(ENOMEM)));
 	}
@@ -57,11 +56,10 @@ int	set_the_env(char *name, char *value)
 	var = ft_strjoin(name, "=");
 	if (var == NULL)
 		return (ft_error("minishell", NULL, strerror(ENOMEM)));
-	free (var);
-	var = ft_strjoin(var, value);
+	var = ft_strjoin_n(var, value);
 	if (var == NULL)
 		return (ft_error("minishell", NULL, strerror(ENOMEM)));
-	status = put_the_var(ft_strdup(var), 0);
+	status = put_the_var(ft_strdup(var));
 	free(var);
 	return (status);
 }

@@ -6,7 +6,7 @@
 /*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 11:54:41 by aoumad            #+#    #+#             */
-/*   Updated: 2022/07/02 12:43:51 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/06 21:00:59 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,8 @@ int	builtin_export(int argc, char **argv)
 	int		status;
 	int		i;
 	char	*new;
-	int		test;
 
 	status = EXIT_SUCCESS;
-	test = 0;
 	if (argc == 1)
 		exported_vars();
 	if (argc > 1)
@@ -67,9 +65,7 @@ int	builtin_export(int argc, char **argv)
 		while (argv[i])
 		{
 			new = skip_symbol(argv[i]);
-			if (ft_strcmp(new, argv[i]))
-				test = 1;
-			status = export_2(argv, new, test, i);
+			status = export_2(argv, new, i);
 			i++;
 		}
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
+/*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 11:14:44 by aoumad            #+#    #+#             */
-/*   Updated: 2022/07/02 16:29:09 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/07/03 02:37:51 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,10 @@ void	status_generator(t_command *data, int i, int pid)
 		g_data.g_status = 131;
 	}
 	else if (g_data.g_status == 2)
+	{
+		printf("\n");
 		g_data.g_status = 130;
+	}
 	else if (g_data.g_status == 126 || g_data.g_status == 127)
 		return ;
 	else

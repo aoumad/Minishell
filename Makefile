@@ -1,6 +1,6 @@
 CC=gcc
-FLAGS=
-FILES= srcs/parsing/main.c srcs/parsing/tools.c srcs/parsing/ft_lexer.c \
+FLAGS=-Wall -Wextra -Werror
+FILES= srcs/parsing/main.c srcs/parsing/tools.c srcs/parsing/ft_lexer.c srcs/parsing/ft_init.c\
 		srcs/parsing/check_syntax.c srcs/parsing/parser.c srcs/parsing/ft_split.c \
 		srcs/parsing/expander.c srcs/parsing/ft_riderct.c srcs/parsing/ft_mark.c \
 		srcs/parsing/ft_free.c srcs/parsing/ft_quot.c srcs/parsing/ft_pars_redirect.c srcs/parsing/ft_dollar.c srcs/parsing/pars_utils.c\
@@ -13,19 +13,23 @@ FILES= srcs/parsing/main.c srcs/parsing/tools.c srcs/parsing/ft_lexer.c \
 		srcs/exec/ft_heredoc.c srcs/exec/ft_redirect.c srcs/builtins/export_additional.c srcs/exec/exec_additional.c srcs/builtins/exit_additional.c
 OBJS= $(FILES:.c=.o)
 NAME= minishell
-INCLUDES=-I includes/minishell.h -I/Users/aoumad/.brew/opt/readline/include
-READLINE=-lreadline -L/Users/aoumad/.brew/opt/readline/lib
+INCLUDES=-I includes/minishell.h -I /goinfre/snouae/.brew/opt/readline/include
+READLINE=-lreadline -L/goinfre/snouae/.brew/opt/readline/lib
 RM= rm -rf
-all: $(NAME) clean
+all: $(NAME)
 
 $(NAME): $(OBJS) 
 	$(CC) $(FLAGS) $^ $(READLINE)  -o $(NAME)
 
 %.o: %.c includes/minishell.h
-	@$(CC) $(FLAGS) -c $< -o $@ $(INCLUDES)
+	$(CC) $(FLAGS) -c $< -o $@ $(INCLUDES)
 
 clean:
 	$(RM) $(OBJS)
 
 fclean: clean
 	$(RM) $(NAME)
+
+re : fclean all
+
+.PHONY: all clean fclean re

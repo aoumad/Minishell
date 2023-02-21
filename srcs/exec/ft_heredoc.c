@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
+/*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 15:24:31 by aoumad            #+#    #+#             */
-/*   Updated: 2022/07/02 17:26:42 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/07/03 15:59:05 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ char	*handl_herdoc(char *str)
 	char	*new;
 	int		leng;
 	int		j;
-	int		start;
 	char	*tmp;
 
 	j = -1;
@@ -55,8 +54,11 @@ int	line_empty_no_n(char *str)
 	return (1);
 }
 
-void	heredoc_core(char *line, char *eof, int pipe_heredoc[2], int rtn_value)
+void	heredoc_core(char *line, char *eof, int pipe_heredoc[2])
 {
+	int	rtn_value;
+
+	rtn_value = 0;
 	rl_catch_signals = 1;
 	signal(SIGINT, SIG_DFL);
 	rtn_value = pipe_heredoc[0];
@@ -71,7 +73,6 @@ void	heredoc_core(char *line, char *eof, int pipe_heredoc[2], int rtn_value)
 			break ;
 		}
 		heredoc_core_2(line, pipe_heredoc);
-		// free(line);
 	}
 	exit (0);
 }
@@ -80,7 +81,6 @@ void	heredoc_core_2(char	*line, int pipe_heredoc[2])
 {
 	if (ft_strlen(line))
 	{
-		printf("line: %s\n", line);
 		line = handl_herdoc(line);
 		write(pipe_heredoc[1], line, ft_strlen(line));
 	}
@@ -88,26 +88,27 @@ void	heredoc_core_2(char	*line, int pipe_heredoc[2])
 	free(line);
 }
 
-int	ft_heredoc(t_command *data, int index, char *eof)
+int	ft_heredoc(char *eof)
 {
 	char	*line;
-	int		rtn_value;
 	int		pipe_heredoc[2];
 	int		pid;
 	int		status;
 
+	line = NULL;
 	if (pipe(pipe_heredoc) != 0)
-		return (rtn_value);
+		return (-1);
 	pid = fork();
 	if (pid < 0)
 		return (-1);
 	signal(SIGINT, SIG_IGN);
 	if (pid == 0)
-		heredoc_core(line, eof, pipe_heredoc, rtn_value);
+		heredoc_core(line, eof, pipe_heredoc);
 	close(pipe_heredoc[1]);
 	waitpid(-1, &status, 0);
 	if (status == 2)
 	{
+		write(1, "\n", 1);
 		g_data.g_status = 1;
 		return (-1);
 	}

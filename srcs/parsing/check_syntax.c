@@ -6,7 +6,7 @@
 /*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 10:41:13 by snouae            #+#    #+#             */
-/*   Updated: 2022/06/28 23:19:19 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/03 02:35:31 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	check_pipe(char *str, t_list **current)
 	i = 0;
 	(*current) = (*current)->next;
 	while (cherche_symbol((*current)->str[0], " \t\n\v\f\r")
-		&& ((*current)->type == char_null))
+		&& ((*current)->type != char_null))
 		(*current) = (*current)->next;
 	while (str[i])
 	{
@@ -86,9 +86,9 @@ int	check_red(char *str, t_list *nx)
 	while (str[i] && cherche_symbol(str[i], " \t\n\v\f\r"))
 		i++;
 	if ((str[i] == '\0' && nx && (nx->type != dollar
-				&& nx->type != double_quo && nx->type != single_quo)) || c > 2
-		|| (ft_strlen(str) == c && nx && (nx->type != dollar
-				&& nx->type != double_quo && nx->type != single_quo)))
+				&& nx->type != 34 && nx->type != 39 && nx->type != -1)) || c > 2
+		|| (ft_strlen(str) == c && nx && (nx->type != 36
+				&& nx->type != 34 && nx->type != 39 && nx->type != -1)))
 		return (0);
 	return (1);
 }

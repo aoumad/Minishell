@@ -6,7 +6,7 @@
 /*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 12:34:10 by snouae            #+#    #+#             */
-/*   Updated: 2022/06/30 06:27:20 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/03 14:51:05 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ char	*remove_double_quote(char *str, char **env)
 	char	*new;
 	int		leng;
 	int		j;
-	int		start;
 	char	*tmp;
 
 	j = 0;

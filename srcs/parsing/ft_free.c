@@ -6,7 +6,7 @@
 /*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 12:26:55 by snouae            #+#    #+#             */
-/*   Updated: 2022/06/30 08:44:37 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/03 14:50:41 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	free_all(t_command *cmd)
 {
 	int			i;
 	int			j;
-	t_command	*ptr;
 	int			nbr;
 
 	i = 0;

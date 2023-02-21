@@ -6,7 +6,7 @@
 /*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 14:52:59 by snouae            #+#    #+#             */
-/*   Updated: 2022/07/02 13:37:02 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/03 16:38:59 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,9 @@ void	check_malloc(t_command **cmd, char **args)
 	(*cmd)->redirect = NULL;
 }
 
-void	fill_cmd(t_command *cmd, char **env, int nbr_args, t_list *tmp)
+void	fill_cmd(t_command *cmd, int nbr_args, t_list *tmp)
 {
 	int		j;
-	t_list	*next;
 	char	*join;
 
 	j = 0;
@@ -96,35 +95,7 @@ void	fill_cmd(t_command *cmd, char **env, int nbr_args, t_list *tmp)
 	cmd->cmd[j] = 0;
 }
 
-/*void	affich(int nbr_cmds, t_command *cmd)
-{
-	int				i;
-	int				j;
-	t_redirection	*head1;
-
-	i = 0;
-	j = 0;
-	while (i < nbr_cmds)
-	{
-		j = 0;
-		printf("\nthe caommande number %d\n", i + 1);
-		while (cmd[i].cmd[j])
-		{
-			printf("%s ", cmd[i].cmd[j]);
-			j++;
-		}
-		head1 = cmd[i].redirect;
-		printf("\nlist of redirections\n");
-		while (head1 != NULL)
-		{
-			printf("%s ------------> type : %d \n", head1->file, head1->type);
-			head1 = head1->next;
-		}
-		i++;
-	}
-}*/
-
-t_command	*ft_parser(t_list **head, char *line, char **env)
+t_command	*ft_parser(t_list **head)
 {
 	t_list		*current;
 	t_list		*tmp;
@@ -143,7 +114,7 @@ t_command	*ft_parser(t_list **head, char *line, char **env)
 		tmp = current;
 		current = ft_count_args(current, &nbr_args);
 		if (nbr_args)
-			fill_cmd(cmd + i, env, nbr_args, tmp);
+			fill_cmd(cmd + i, nbr_args, tmp);
 	}
 	return (cmd);
 }

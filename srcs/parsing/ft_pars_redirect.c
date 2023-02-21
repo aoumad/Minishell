@@ -6,7 +6,7 @@
 /*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 12:39:00 by snouae            #+#    #+#             */
-/*   Updated: 2022/07/02 13:31:17 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/03 15:32:58 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ void	ft_lstadd_back1(t_redirection **lst, t_redirection *new)
 void	check_not_herdoc(char **new, char **env, t_list **tmp, int *test)
 {
 	if (*test == 11)
+	{
 		*new = ft_strjoin_n(*new, (*tmp)->str);
+	}
 	else
 	{
 		ft_handler_dollar(tmp, env, new);
@@ -56,8 +58,8 @@ int	add_string_red(char **new, char **env, t_list **tmp, int *test)
 	}
 	else if ((*tmp)->type == dollar)
 		check_not_herdoc(new, env, tmp, test);
-	else if ((cherche_symbol((*tmp)->str[0], " \t\n\v\f\r") || (*tmp)->type == 0
-			|| ((*tmp)->type == 60 || (*tmp)->type == 62) && new))
+	else if (((cherche_symbol((*tmp)->str[0], " \t\n\v\f\r") || (*tmp)->type == 0
+				|| ((*tmp)->type == 60 || (*tmp)->type == 62)) && new))
 		return (1);
 	return (0);
 }
@@ -67,12 +69,19 @@ char	*check(char *str, char **env, t_list **tmp, int *test)
 	char	*new;
 
 	new = NULL;
+	if ((*tmp)->next && (cherche_symbol((*tmp)->next->str[0], " \t\n\v\f\r")
+			|| (*tmp)->next->type == 0
+			|| ((*tmp)->next->type == 60 || (*tmp)->next->type == 62)))
+	{
+		new = ft_strjoin_n(new, str);
+		return (new);
+	}
 	new = ft_strjoin_n(new, str);
 	(*tmp) = (*tmp)->next;
 	while ((*tmp) != NULL)
 	{
 		if (add_string_red(&new, env, tmp, test) == 1)
-			break ;
+			return (new);
 		(*tmp) = (*tmp)->next;
 	}
 	return (new);

@@ -6,7 +6,7 @@
 /*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 14:34:27 by snouae            #+#    #+#             */
-/*   Updated: 2022/06/30 17:20:17 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/03 14:39:07 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	check_lexer(char *line, t_list **head, int *i)
 		ft_mark(line, i, white_space, head);
 }
 
-t_list	*ft_lexer(char *line, char **env)
+t_list	*ft_lexer(char *line)
 {
 	int		i;
 	t_list	*head;

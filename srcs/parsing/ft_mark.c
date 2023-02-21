@@ -6,7 +6,7 @@
 /*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 12:03:02 by snouae            #+#    #+#             */
-/*   Updated: 2022/06/28 17:18:07 by snouae           ###   ########.fr       */
+/*   Updated: 2022/07/02 22:08:37 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_mark_redirect(char *line, int *i, int type, t_list **head)
 	start = *i;
 	while (search_token(line[*i]) == type)
 		(*i)++;
-	while (search_token(line[*i]) == ' ')
+	while (cherche_symbol(line[*i], " \t\n\v\f\r"))
 		(*i)++;
 	while (search_token(line[*i]) == -1)
 		(*i)++;

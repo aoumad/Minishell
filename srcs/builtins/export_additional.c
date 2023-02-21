@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export_additional.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoumad <abderazzakoumad@gmail.com>         +#+  +:+       +#+        */
+/*   By: snouae <snouae@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 23:31:11 by aoumad            #+#    #+#             */
-/*   Updated: 2022/07/02 14:10:27 by aoumad           ###   ########.fr       */
+/*   Updated: 2022/07/06 21:09:38 by snouae           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	export_2(char **argv, char *new, int test, int i)
+int	export_2(char **argv, char *new, int i)
 {
 	int	status;
 
@@ -22,7 +22,7 @@ int	export_2(char **argv, char *new, int test, int i)
 		ft_error("minishell", argv[i], "not a valid identifier");
 		status = EXIT_FAILURE;
 	}
-	status = put_the_var(new, test);
+	status = put_the_var(new);
 	return (status);
 }
 
@@ -114,14 +114,13 @@ char	*join_to_env(char	*env)
 	char	*tmp;
 	char	*str;
 	int		count;
-	char	c;
+	char	*quot;
 
 	i = 0;
-	c = '=';
 	count = ft_strlen(env);
 	while (i < count)
 	{
-		if (env[i] == (char )c)
+		if (env[i] == '=')
 		{
 			i++;
 			break ;
@@ -129,9 +128,9 @@ char	*join_to_env(char	*env)
 		i++;
 	}
 	str = ft_substr(env, 0, i);
-	tmp = ft_strjoin(str, "\"");
-	free(str);
-	str = ft_strjoin(tmp, ft_substr(env, i, (count - i)));
-	free(tmp);
+	tmp = ft_strjoin_n(str, "\"");
+	quot = ft_substr(env, i, (count - i));
+	str = ft_strjoin_n(tmp, quot);
+	free(quot);
 	return (str);
 }
